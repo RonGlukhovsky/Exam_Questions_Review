@@ -27,13 +27,31 @@ const chips = years.map(y =>
   `<button class="chip year" data-year="${y}" aria-pressed="false" type="button">${y}</button>`
 ).join('\n        ');
 
-const out = fs.readFileSync(TPL, 'utf8')
+const filled = fs.readFileSync(TPL, 'utf8')
   .replace('__EXAMS__', JSON.stringify(D.exams))
   .replace('__Q__', JSON.stringify(qs))
   .replace('__YEARCHIPS__', chips)
   .replace('__YEARSPAN__', `${years[0]}–${years[years.length - 1]}`)
   .replace('__NEXAMS__', String(D.exams.length))
   .replace('__NQ__', String(qs.length));
+
+/* התבנית היא קטע (fragment). כאן היא נעטפת במסמך שלם עם doctype —
+   בלעדיו הדפדפן במצב quirks, ושם <table> לא יורש color מההורה ונופל
+   לצבע השורש. במצב כהה של המערכת זה יצא טקסט לבן על רקע לבן. */
+const cut = filled.indexOf('</style>') + '</style>'.length;
+const head = filled.slice(0, cut).trim();
+const body = filled.slice(cut).trim();
+const out = `<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+${head}
+</head>
+<body>
+${body}
+</body>
+</html>
+`;
 
 fs.writeFileSync(OUT, out);
 console.log(`נבנה index.html — ${D.exams.length} מועדים, ${qs.length} שאלות, ${years[0]}–${years[years.length - 1]}`);

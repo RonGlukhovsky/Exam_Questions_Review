@@ -41,12 +41,20 @@
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
 
+  /* app-shell: הדף בגובה החלון, והגלילה היחידה היא בתוך הטבלה.
+     dvh במקום vh כדי ששורת הכתובת בטלפון לא תשנה את הגובה תוך כדי גלילה. */
   .page {
     direction: rtl; background: var(--bg); color: var(--text);
     font-family: var(--heb); font-size: 15px; line-height: 1.55;
-    min-block-size: 100vh; padding: 28px clamp(14px, 3vw, 40px) 64px; overflow-x: hidden;
+    block-size: 100vh; block-size: 100dvh;
+    padding: 24px clamp(14px, 3vw, 40px) 20px;
+    display: flex; overflow: auto; overflow-x: hidden;
   }
-  .shell { max-inline-size: 1560px; margin-inline: auto; display: flex; flex-direction: column; gap: 20px; }
+  .shell {
+    max-inline-size: 1560px; margin-inline: auto; inline-size: 100%;
+    display: flex; flex-direction: column; gap: 16px;
+    flex: 1 1 auto; min-block-size: 0;
+  }
 
   .masthead { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 14px 24px; }
   .masthead > div { flex: 1 1 460px; }
@@ -113,9 +121,15 @@
 
   .frame {
     background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
-    overflow: auto; max-block-size: min(82vh, 1000px); box-shadow: var(--shadow);
+    overflow: auto; box-shadow: var(--shadow);
+    flex: 1 1 auto; min-block-size: 220px;
+    overscroll-behavior: contain;   /* גלילה בתוך הטבלה לא "בורחת" לדף */
   }
-  table { border-collapse: separate; border-spacing: 0; inline-size: auto; min-inline-size: 100%; }
+  /* color מפורש על הטבלה — הגנה נוספת מפני ירושת צבע חסרה */
+  table {
+    border-collapse: separate; border-spacing: 0; inline-size: auto; min-inline-size: 100%;
+    color: var(--text); background: var(--surface);
+  }
 
   thead th {
     position: sticky; top: 0; z-index: 3; background: var(--surface-2);
@@ -222,15 +236,43 @@
   }
   #listView .card { border-radius: 4px; }
 
-  #viewBtn { display: none; }
+  /* לוח בחירת המועדים */
+  .picker {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 11px 13px; display: flex; flex-direction: column; gap: 9px;
+    max-block-size: 34vh; overflow: auto; flex: 0 0 auto;
+  }
+  .picker-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; justify-content: space-between; }
+  .picker-row { display: flex; align-items: flex-start; gap: 8px; padding-block: 5px; }
+  .picker-row + .picker-row { border-block-start: 1px solid var(--line-soft); }
+  .picker-year {
+    font-family: var(--mono); font-size: 11.5px; color: var(--dim); font-weight: 700;
+    inline-size: 42px; flex: 0 0 auto; padding-block-start: 5px;
+  }
+  .picker-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip.exam { font-size: 12.5px; padding: 4px 10px; }
+  #examSummary { color: inherit; font-weight: 700; }
+
+  #viewBtn, #filterToggle { display: none; }
 
   @media (max-width: 760px) {
     .frame { display: none; }
     #listView { display: flex; }
-    #viewBtn { display: inline-flex; }
+    #viewBtn, #filterToggle { display: inline-flex; }
+    /* בטלפון הפילטרים מקופלים כברירת מחדל, כדי שהטבלה תקבל את רוב המסך */
+    .controls { display: none; }
+    .page.filters-open .controls { display: flex; }
+    .picker { max-block-size: 40vh; }
+    .sub { display: none; }
+    .masthead { gap: 8px 14px; }
     /* מי שמעדיף את המטריצה גם בטלפון — המתג מחזיר אותה, עם גלילה אופקית */
     .page.view-table .frame { display: block; }
     .page.view-table #listView { display: none; }
+
+    /* בתצוגת הרשימה הדף נגלל רגיל — אין טבלה שתחזיק את הגלילה */
+    .page:not(.view-table) { block-size: auto; overflow: visible; }
+    .page:not(.view-table) .shell { flex: 0 1 auto; }
+    footer.note { display: none; }
 
     /* ראש הדף מתקצר כדי שהשאלות יהיו קרובות לראש המסך */
     .shell { gap: 14px; }
@@ -252,16 +294,21 @@
   }
 
   footer.note {
-    color: var(--faint); font-size: 12.5px; border-block-start: 1px solid var(--line);
-    padding-block-start: 16px; display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between;
+    color: var(--faint); font-size: 12px; border-block-start: 1px solid var(--line);
+    padding-block-start: 10px; display: flex; flex-wrap: wrap; gap: 4px 20px; justify-content: space-between;
+    flex: 0 0 auto;
   }
   footer.note code { font-family: var(--mono); font-size: 11.5px; }
 
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   @media (max-width: 720px) {
-    .page { padding: 20px 12px 48px; }
-    thead th, tbody th { min-inline-size: 168px; inline-size: 168px; }
-    thead th:not(.corner) { min-inline-size: 232px; inline-size: 232px; }
+    .page { padding: 16px 10px 12px; }
+    /* עמודת הנושא מצטמצמת כדי שיישאר רוחב אמיתי לעמודת המועד */
+    thead th.corner, tbody th { min-inline-size: 116px; inline-size: 116px; padding: 9px; }
+    /* 116 + 214 נכנסים ברוחב מסך טלפון — בחירת מועד אחד נראית בלי גלילה אופקית */
+    thead th:not(.corner) { min-inline-size: 214px; inline-size: 214px; }
+    .topic { font-size: 12.5px; }
+    .col-sem { font-size: 13px; }
     .frame { max-block-size: 74vh; }
   }
 </style>
@@ -276,6 +323,7 @@
       <p class="sub">כל מועדי הבחינה מ־<b>__YEARSPAN__</b> — __NEXAMS__ מועדים, __NQ__ שאלות — ממופים אל נושאי הסילבוס. סמנו שאלה כדי לסמן שנפתרה; ההתקדמות נשמרת בדפדפן.</p>
     </div>
     <span class="group">
+      <button class="theme-btn" id="filterToggle" type="button" aria-expanded="false" aria-controls="controls">סינון</button>
       <button class="theme-btn" id="viewBtn" type="button">תצוגת טבלה</button>
       <button class="theme-btn" id="themeBtn" type="button">מצב תצוגה</button>
     </span>
@@ -300,13 +348,28 @@
     </div>
   </section>
 
-  <section class="controls" aria-label="סינון">
+  <section class="controls" id="controls" aria-label="סינון">
     <div class="row">
       <div class="group">
         <span class="glabel">שנה</span>
         <button class="chip year" data-year="all" aria-pressed="true" type="button">הכל</button>
         __YEARCHIPS__
       </div>
+      <div class="group">
+        <button class="chip" id="examToggle" type="button" aria-expanded="false" aria-controls="examPanel">
+          בחירת מועדים · <b id="examSummary">כל המועדים</b>
+        </button>
+      </div>
+    </div>
+    <div class="picker" id="examPanel" hidden>
+      <div class="picker-head">
+        <span class="glabel">סמנו מועדים להצגה — לחיצה מוסיפה או מורידה</span>
+        <span class="group">
+          <button class="reset" id="examAll" type="button">סמן הכל</button>
+          <button class="reset" id="examNone" type="button">נקה הכל</button>
+        </span>
+      </div>
+      <div id="examRows"></div>
     </div>
     <div class="row">
       <div class="group">
@@ -396,7 +459,9 @@ try {
 } catch (e) {}
 
 const qid = q => q.exam + '-' + q.n;
-const filters = { band:'all', kind:'all', status:'all', year:'all', text:'' };
+const filters = { band:'all', kind:'all', status:'all', text:'' };
+/* מקור אמת יחיד לאילו מועדים מוצגים. צ'יפ שנה הוא קיצור דרך שמסמן את כל מועדי אותה שנה. */
+const selExams = new Set(EXAMS.map(x => x.id));
 const el = s => document.querySelector(s);
 const TMAP = Object.fromEntries(TOPICS.map(t => [t.id, t]));
 const XMAP = Object.fromEntries(EXAMS.map(x => [x.id, x]));
@@ -410,7 +475,8 @@ function levelBars(n) {
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-function examVisible(x) { return filters.year === 'all' || String(x.year) === filters.year; }
+function examVisible(x) { return selExams.has(x.id); }
+function examShort(x) { return x.sem.split(' ')[0] + ' ' + x.moed.replace('מועד ', ''); }
 
 function matches(q) {
   if (!examVisible(XMAP[q.exam])) return false;
@@ -585,7 +651,7 @@ function refresh() {
   el('#noneMsg').hidden = visible > 0;
 }
 
-buildHead(); buildBody(); buildList(); buildWave(); refresh();
+buildHead(); buildBody(); buildList(); buildExamPicker(); buildWave(); syncExamChips(); refresh();
 
 /* אותה שאלה קיימת בשתי התצוגות — סימון באחת מסמן גם בשנייה */
 function onToggle(e) {
@@ -602,15 +668,72 @@ function onToggle(e) {
 el('#body').addEventListener('change', onToggle);
 el('#listView').addEventListener('change', onToggle);
 
-document.querySelectorAll('.chip').forEach(chip => {
+document.querySelectorAll('.chip[data-band], .chip[data-kind], .chip[data-status]').forEach(chip => {
   chip.addEventListener('click', () => {
-    const key = ['band','kind','status','year'].find(k => chip.dataset[k] !== undefined);
+    const key = ['band','kind','status'].find(k => chip.dataset[k] !== undefined);
     filters[key] = chip.dataset[key];
     document.querySelectorAll('.chip[data-' + key + ']').forEach(c =>
       c.setAttribute('aria-pressed', String(c.dataset[key] === filters[key])));
     refresh();
   });
 });
+
+/* ---------- בחירת מועדים ---------- */
+function buildExamPicker() {
+  const years = [...new Set(EXAMS.map(x => x.year))].sort();
+  el('#examRows').innerHTML = years.map(y =>
+    '<div class="picker-row"><span class="picker-year" dir="ltr">' + y + '</span>' +
+    '<span class="picker-chips">' +
+    EXAMS.filter(x => x.year === y).map(x =>
+      '<button class="chip exam" type="button" data-exam="' + x.id + '" aria-pressed="true" ' +
+      'title="' + x.sem + ' ' + x.moed + ' · ' + x.date + '">' + examShort(x) + '</button>'
+    ).join('') + '</span></div>'
+  ).join('');
+}
+
+function syncExamChips() {
+  const n = selExams.size, total = EXAMS.length;
+  // איזה צ'יפ שנה מודגש: "הכל" כשהכול נבחר, שנה מסוימת אם הבחירה היא בדיוק כל מועדיה
+  let activeYear = '';
+  if (n === total) activeYear = 'all';
+  else if (n) {
+    const ys = [...new Set(EXAMS.filter(x => selExams.has(x.id)).map(x => x.year))];
+    if (ys.length === 1 && EXAMS.filter(x => x.year === ys[0]).length === n) activeYear = String(ys[0]);
+  }
+  document.querySelectorAll('.chip[data-year]').forEach(c =>
+    c.setAttribute('aria-pressed', String(c.dataset.year === activeYear)));
+  document.querySelectorAll('.chip[data-exam]').forEach(c =>
+    c.setAttribute('aria-pressed', String(selExams.has(c.dataset.exam))));
+  el('#examSummary').textContent =
+    n === total ? 'כל המועדים' : n === 0 ? 'לא נבחר מועד' : n === 1 ? 'מועד אחד' : n + ' מועדים';
+}
+
+function setExams(ids) { selExams.clear(); ids.forEach(i => selExams.add(i)); syncExamChips(); refresh(); }
+
+document.querySelectorAll('.chip[data-year]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const y = chip.dataset.year;
+    setExams(EXAMS.filter(x => y === 'all' || String(x.year) === y).map(x => x.id));
+  });
+});
+
+el('#examToggle').addEventListener('click', () => {
+  const panel = el('#examPanel');
+  panel.hidden = !panel.hidden;
+  el('#examToggle').setAttribute('aria-expanded', String(!panel.hidden));
+});
+
+el('#examRows').addEventListener('click', e => {
+  const chip = e.target.closest('.chip[data-exam]');
+  if (!chip) return;
+  const id = chip.dataset.exam;
+  selExams.has(id) ? selExams.delete(id) : selExams.add(id);
+  syncExamChips();
+  refresh();
+});
+
+el('#examAll').addEventListener('click', () => setExams(EXAMS.map(x => x.id)));
+el('#examNone').addEventListener('click', () => setExams([]));
 
 el('#search').addEventListener('input', e => { filters.text = e.target.value.trim().toLowerCase(); refresh(); });
 
@@ -621,6 +744,13 @@ el('#resetBtn').addEventListener('click', () => {
     document.querySelectorAll('.card input').forEach(b => b.checked = false);
     refresh();
   }
+});
+
+/* ---------- קיפול הפילטרים, רלוונטי במסכים צרים ---------- */
+el('#filterToggle').addEventListener('click', () => {
+  const open = page.classList.toggle('filters-open');
+  el('#filterToggle').setAttribute('aria-expanded', String(open));
+  el('#filterToggle').textContent = open ? 'סגור סינון' : 'סינון';
 });
 
 /* ---------- מתג טבלה/רשימה, רלוונטי במסכים צרים ---------- */
