@@ -20,15 +20,7 @@
     --heb: "Assistant","Heebo","Rubik","Arial Hebrew","Noto Sans Hebrew",system-ui,-apple-system,sans-serif;
     --mono: ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
-      --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
-      --accent:#3EBFA4; --done-bg:#10231F;
-      --arch:#DFA93C; --comb:#3EBFA4; --seq:#8D93E9; --uarch:#E37A5F;
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
-    }
-  }
+  /* התצוגה הבהירה היא ברירת המחדל; המצב הכהה נבחר ידנית בכפתור ונשמר בדפדפן */
   :root[data-theme="dark"] {
     --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
     --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
@@ -204,6 +196,35 @@
   .empty { color: var(--line); font-family: var(--mono); font-size: 12px; padding: 4px 2px; }
   .none { padding: 40px; text-align: center; color: var(--dim); }
 
+  /* ---------- תצוגת רשימה: נכנסת לתוקף במסכים צרים ---------- */
+  #listView { display: none; flex-direction: column; gap: 22px; }
+  .lt-band {
+    display: flex; align-items: center; gap: 9px; font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--dim); margin-block-start: 6px;
+  }
+  .lt-band .rule { flex: 1; block-size: 1px; background: var(--line); }
+  .lt-group { display: flex; flex-direction: column; gap: 8px; }
+  .lt-head {
+    display: flex; align-items: baseline; gap: 8px; margin: 0;
+    padding-inline-start: 9px; border-inline-start: 3px solid var(--band-hue);
+  }
+  .lt-name { font-size: 15px; font-weight: 700; }
+  .lt-count {
+    font-family: var(--mono); font-size: 11px; color: var(--faint);
+    font-variant-numeric: tabular-nums; margin-inline-start: auto;
+  }
+  .q-exam {
+    font-size: 11px; color: var(--band-hue); font-weight: 600;
+    display: block; margin-block-end: 2px;
+  }
+  #listView .card { border-radius: 4px; }
+
+  @media (max-width: 760px) {
+    .frame { display: none; }
+    #listView { display: flex; }
+  }
+
   footer.note {
     color: var(--faint); font-size: 12.5px; border-block-start: 1px solid var(--line);
     padding-block-start: 16px; display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between;
@@ -280,7 +301,12 @@
         <button class="chip" data-status="done" aria-pressed="false" type="button">נפתרו</button>
       </div>
       <input class="search" id="search" type="search" placeholder="חיפוש בשאלות…" aria-label="חיפוש בשאלות">
-      <button class="reset" id="resetBtn" type="button">איפוס סימונים</button>
+      <span class="group" style="margin-inline-start:auto">
+        <button class="reset" id="exportBtn" type="button">ייצוא התקדמות</button>
+        <button class="reset" id="importBtn" type="button">ייבוא</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+        <button class="reset" id="resetBtn" type="button">איפוס</button>
+      </span>
     </div>
   </section>
 
@@ -290,6 +316,7 @@
       <tbody id="body"></tbody>
     </table>
   </div>
+  <div id="listView"></div>
   <div class="none" id="noneMsg" hidden>אין שאלות שתואמות את הסינון.</div>
 
   <footer class="note">
@@ -383,15 +410,17 @@ function buildHead() {
       '</th>').join('');
 }
 
-function cardHTML(q) {
+function cardHTML(q, withExam) {
   const id = qid(q);
   const also = (q.also || []).map(topicName).join(' · ');
+  const x = XMAP[q.exam];
   return '<label class="card" data-q="' + id + '">' +
     '<input type="checkbox" ' + (solved.has(id) ? 'checked' : '') + ' aria-label="שאלה ' + q.n + ' נפתרה">' +
     '<span>' +
+      (withExam ? '<span class="q-exam">' + x.sem + ' · ' + x.moed + '</span>' : '') +
       '<span class="q-top">' +
         '<span class="q-no">שאלה ' + q.n + '</span>' +
-        '<span class="q-pts">' + q.pts + ' נק׳</span>' +
+        (q.pts ? '<span class="q-pts">' + q.pts + ' נק׳</span>' : '') +
         '<span class="q-kind ' + (q.kind === 'open' ? 'open' : '') + '">' + (q.kind === 'open' ? 'פתוחה' : 'אמריקאית') + '</span>' +
       '</span>' +
       '<span class="q-desc">' + esc(q.desc) + '</span>' +
@@ -423,6 +452,24 @@ function buildBody() {
   el('#body').innerHTML = html;
 }
 
+/* תצוגת הרשימה למסכים צרים: מקובצת לפי נושא, המועדים החדשים ראשונים */
+function buildList() {
+  let html = '';
+  for (const band of BANDS) {
+    html += '<div class="lt-band" data-listband="' + band.id + '">' +
+      '<span>' + band.tag + '</span><span class="rule"></span></div>';
+    for (const t of TOPICS.filter(t => t.band === band.id)) {
+      const list = Q.filter(q => q.topic === t.id).slice().reverse();
+      if (!list.length) continue;
+      html += '<section class="lt-group" data-listtopic="' + t.id + '" data-band="' + band.id + '">' +
+        '<h2 class="lt-head"><span class="lt-name">' + t.name + '</span>' +
+        '<span class="lt-count" dir="ltr" data-listcount="' + t.id + '"></span></h2>' +
+        '<div class="stack">' + list.map(q => cardHTML(q, true)).join('') + '</div></section>';
+    }
+  }
+  el('#listView').innerHTML = html;
+}
+
 function buildWave() {
   const W = 1240, mid = 23, amp = 13, periods = 31;
   const step = W / (periods * 2);
@@ -437,22 +484,21 @@ function buildWave() {
 }
 
 function refresh() {
-  let visible = 0;
   const perExam = {}, perTopic = {};
   EXAMS.forEach(x => perExam[x.id] = { d:0, t:0 });
   TOPICS.forEach(t => perTopic[t.id] = { d:0, t:0 });
-  const QMAP = {}; Q.forEach(q => QMAP[qid(q)] = q);
 
+  const shown = Q.filter(matches);
+  const visible = shown.length;
+  const showIds = new Set(shown.map(qid));
+  shown.forEach(q => {
+    const done = solved.has(qid(q)) ? 1 : 0;
+    perExam[q.exam].t++; perExam[q.exam].d += done;
+    perTopic[q.topic].t++; perTopic[q.topic].d += done;
+  });
+  // אותה שאלה מופיעה גם בטבלה וגם ברשימה — שתי המופעים מתעדכנים יחד
   document.querySelectorAll('.card').forEach(card => {
-    const q = QMAP[card.dataset.q];
-    const show = matches(q);
-    card.hidden = !show;
-    if (show) {
-      visible++;
-      const done = solved.has(card.dataset.q) ? 1 : 0;
-      perExam[q.exam].t++; perExam[q.exam].d += done;
-      perTopic[q.topic].t++; perTopic[q.topic].d += done;
-    }
+    card.hidden = !showIds.has(card.dataset.q);
   });
 
   // hide whole exam columns filtered out by year
@@ -475,6 +521,18 @@ function refresh() {
     while (next && !next.classList.contains('band')) { if (!next.hidden) any = true; next = next.nextElementSibling; }
     tr.hidden = !any;
   });
+
+  // תצוגת הרשימה
+  document.querySelectorAll('[data-listtopic]').forEach(sec => {
+    const c = perTopic[sec.dataset.listtopic];
+    sec.hidden = c.t === 0;
+    sec.querySelector('[data-listcount]').textContent = c.t ? c.d + '/' + c.t : '';
+  });
+  document.querySelectorAll('[data-listband]').forEach(head => {
+    const any = [...document.querySelectorAll('[data-listtopic][data-band="' + head.dataset.listband + '"]')]
+      .some(s => !s.hidden);
+    head.hidden = !any;
+  });
   EXAMS.forEach(x => {
     const c = perExam[x.id];
     const t = document.querySelector('[data-tally="' + x.id + '"]');
@@ -485,8 +543,8 @@ function refresh() {
 
   const pool = Q.filter(q => examVisible(XMAP[q.exam]));
   const done = pool.filter(q => solved.has(qid(q))).length;
-  const ptsT = pool.reduce((s,q) => s + q.pts, 0);
-  const ptsD = pool.filter(q => solved.has(qid(q))).reduce((s,q) => s + q.pts, 0);
+  const ptsT = pool.reduce((s,q) => s + (q.pts || 0), 0);
+  const ptsD = pool.filter(q => solved.has(qid(q))).reduce((s,q) => s + (q.pts || 0), 0);
   const mc = pool.filter(q => q.kind === 'mc'), op = pool.filter(q => q.kind === 'open');
   el('#doneCount').textContent = done;
   el('#totalCount').textContent = pool.length;
@@ -498,16 +556,22 @@ function refresh() {
   el('#noneMsg').hidden = visible > 0;
 }
 
-buildHead(); buildBody(); buildWave(); refresh();
+buildHead(); buildBody(); buildList(); buildWave(); refresh();
 
-el('#body').addEventListener('change', e => {
+/* אותה שאלה קיימת בשתי התצוגות — סימון באחת מסמן גם בשנייה */
+function onToggle(e) {
   const box = e.target.closest('input[type=checkbox]');
   if (!box) return;
   const id = box.closest('.card').dataset.q;
   box.checked ? solved.add(id) : solved.delete(id);
   localStorage.setItem(KEY, JSON.stringify([...solved]));
+  document.querySelectorAll('.card').forEach(c => {
+    if (c.dataset.q === id) c.querySelector('input').checked = box.checked;
+  });
   refresh();
-});
+}
+el('#body').addEventListener('change', onToggle);
+el('#listView').addEventListener('change', onToggle);
 
 document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => {
@@ -530,9 +594,78 @@ el('#resetBtn').addEventListener('click', () => {
   }
 });
 
+/* ---------- מצב תצוגה: בהיר כברירת מחדל, הבחירה נשמרת ---------- */
+const THEME_KEY = 'ds044252.theme';
+const savedTheme = localStorage.getItem(THEME_KEY);
+if (savedTheme === 'dark' || savedTheme === 'light') document.documentElement.dataset.theme = savedTheme;
+
 el('#themeBtn').addEventListener('click', () => {
-  const cur = document.documentElement.dataset.theme ||
-    (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  document.documentElement.dataset.theme = cur === 'dark' ? 'light' : 'dark';
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem(THEME_KEY, next);
+});
+
+/* ---------- ייצוא וייבוא של ההתקדמות ---------- */
+function stamp() {
+  const d = new Date();
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+el('#exportBtn').addEventListener('click', () => {
+  const payload = {
+    app: 'ds044252',
+    version: 2,
+    exported: new Date().toISOString(),
+    total: Q.length,
+    solved: [...solved].sort()
+  };
+  const text = JSON.stringify(payload, null, 1);
+  const a = document.createElement('a');
+  a.download = `044252-התקדמות-${stamp()}.json`;
+  try {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    a.href = url;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) {
+    a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(text);
+    a.click();
+  }
+});
+
+el('#importBtn').addEventListener('click', () => el('#importFile').click());
+
+el('#importFile').addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  let list;
+  try {
+    const data = JSON.parse(await file.text());
+    list = Array.isArray(data) ? data : data.solved;
+    if (!Array.isArray(list)) throw new Error('no list');
+  } catch (err) {
+    alert('הקובץ אינו קובץ התקדמות תקין. צריך להיות קובץ JSON שיוצא מהאתר הזה.');
+    return;
+  }
+  const valid = new Set(Q.map(qid));
+  const known = list.filter(k => valid.has(k));
+  const skipped = list.length - known.length;
+  const fresh = known.filter(k => !solved.has(k)).length;
+
+  const merge = solved.size > 0
+    ? confirm(`בקובץ ${known.length} שאלות מסומנות (${fresh} חדשות עבורך).\n\n` +
+              'אישור = מיזוג עם הסימונים הקיימים\nביטול = החלפה מלאה של הסימונים')
+    : true;
+
+  if (!merge) solved.clear();
+  known.forEach(k => solved.add(k));
+  localStorage.setItem(KEY, JSON.stringify([...solved]));
+  document.querySelectorAll('.card').forEach(c => {
+    c.querySelector('input').checked = solved.has(c.dataset.q);
+  });
+  refresh();
+  alert(`יובאו ${known.length} סימונים.` + (skipped ? `\n${skipped} רשומות לא זוהו ודולגו.` : ''));
 });
 </script>

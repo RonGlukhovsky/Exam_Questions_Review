@@ -99,11 +99,11 @@
    "order": "2024-05-28"
   },
   {
-   "id": "w24c",
-   "sem": "חורף תשפ״ד",
-   "moed": "טופס נוסף",
-   "date": "28.05.2024",
-   "order": "2024-05-29"
+   "id": "s24b",
+   "sem": "אביב תשפ״ד",
+   "moed": "מועד ב׳",
+   "date": "2024",
+   "order": "2024-11-01"
   },
   {
    "id": "s24a",
@@ -146,6 +146,97 @@
    "moed": "מועד א׳",
    "date": "12.02.2026",
    "order": "2026-02-12"
+  },
+  {
+   "id": "s18a1",
+   "sem": "אביב תשע״ח",
+   "moed": "מועד א׳ · חלק 1",
+   "date": "2018",
+   "order": "2018-07-01"
+  },
+  {
+   "id": "s18a2",
+   "sem": "אביב תשע״ח",
+   "moed": "מועד א׳ · חלק 2",
+   "date": "2018",
+   "order": "2018-07-02"
+  },
+  {
+   "id": "s18b1",
+   "sem": "אביב תשע״ח",
+   "moed": "מועד ב׳ · חלק 1",
+   "date": "2018",
+   "order": "2018-09-01"
+  },
+  {
+   "id": "s18b2",
+   "sem": "אביב תשע״ח",
+   "moed": "מועד ב׳ · חלק 2",
+   "date": "2018",
+   "order": "2018-09-02"
+  },
+  {
+   "id": "w19a",
+   "sem": "חורף תשע״ט",
+   "moed": "מועד א׳",
+   "date": "29.01.2019",
+   "order": "2019-01-29"
+  },
+  {
+   "id": "s19a",
+   "sem": "אביב תשע״ט",
+   "moed": "מועד א׳",
+   "date": "04.07.2019",
+   "order": "2019-07-04"
+  },
+  {
+   "id": "s19b",
+   "sem": "אביב+קיץ תשע״ט",
+   "moed": "מועד ב׳",
+   "date": "07.10.2019",
+   "order": "2019-10-07"
+  },
+  {
+   "id": "k19b",
+   "sem": "קיץ תשע״ט",
+   "moed": "מועד ב׳",
+   "date": "07.11.2019",
+   "order": "2019-11-07"
+  },
+  {
+   "id": "w20a",
+   "sem": "חורף תש״פ",
+   "moed": "מועד א׳",
+   "date": "03.02.2020",
+   "order": "2020-02-03"
+  },
+  {
+   "id": "w20b",
+   "sem": "חורף תש״פ",
+   "moed": "מועד ב׳",
+   "date": "03.03.2020",
+   "order": "2020-03-03"
+  },
+  {
+   "id": "s20a",
+   "sem": "אביב תש״פ",
+   "moed": "מועד א׳",
+   "date": "02.08.2020",
+   "order": "2020-08-02"
+  },
+  {
+   "id": "s20b",
+   "sem": "אביב תש״פ",
+   "moed": "מועד ב׳",
+   "date": "20.10.2020",
+   "order": "2020-10-20"
+  },
+  {
+   "id": "k20b",
+   "sem": "קיץ תש״פ",
+   "moed": "מועד ב׳",
+   "date": "26.11.2020",
+   "order": "2020-11-26"
   }
  ],
  "questions": [
@@ -2771,7 +2862,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 1,
    "topic": "sv",
    "pts": 5,
@@ -2782,7 +2873,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 2,
    "topic": "bool",
    "pts": 5,
@@ -2793,7 +2884,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 3,
    "topic": "num",
    "pts": 5,
@@ -2804,7 +2895,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 4,
    "topic": "bool",
    "pts": 5,
@@ -2815,7 +2906,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 5,
    "topic": "comb",
    "pts": 5,
@@ -2826,7 +2917,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 6,
    "topic": "timing",
    "pts": 5,
@@ -2837,7 +2928,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 7,
    "topic": "fsm",
    "pts": 5,
@@ -2848,7 +2939,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 8,
    "topic": "asm",
    "pts": 5,
@@ -2859,7 +2950,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 9,
    "topic": "pipec",
    "pts": 5,
@@ -2870,7 +2961,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 10,
    "topic": "serial",
    "pts": 5,
@@ -2881,7 +2972,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 11,
    "topic": "sc",
    "pts": 5,
@@ -2892,7 +2983,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 12,
    "topic": "sc",
    "pts": 5,
@@ -2903,7 +2994,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 13,
    "topic": "pp",
    "pts": 5,
@@ -2914,7 +3005,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 14,
    "topic": "pp",
    "pts": 5,
@@ -2925,7 +3016,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 15,
    "topic": "sc",
    "pts": 10,
@@ -2936,7 +3027,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 16,
    "topic": "scan",
    "pts": 10,
@@ -2947,7 +3038,7 @@
   },
   {
    "also": [],
-   "exam": "w24c",
+   "exam": "s24b",
    "n": 17,
    "topic": "pp",
    "pts": 10,
@@ -4111,6 +4202,1919 @@
    "level": 4,
    "page": 1378,
    "desc": "Single Cycle תקול שבו funct7 אינו מגיע ל־ALU ctrl — אילו פקודות ייפגעו"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 1,
+   "topic": "fsm",
+   "pts": null,
+   "kind": "open",
+   "level": 3,
+   "page": 1,
+   "desc": "מעגל דלגלגים במצב התחלתי 0101 — מהו המצב לאחר שבעה מחזורי שעון"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 2,
+   "topic": "bool",
+   "pts": null,
+   "kind": "open",
+   "level": 3,
+   "page": 2,
+   "desc": "שעון מחוגים 1–12: מעגל צירופי במינימום שערים שמזהה את שעות התרופה"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 3,
+   "topic": "num",
+   "pts": null,
+   "kind": "mc",
+   "level": 2,
+   "page": 3,
+   "desc": "איזה מהערכים אינו ניתן לייצוג בפורמט נקודה צפה"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 4,
+   "topic": "asm",
+   "pts": null,
+   "kind": "open",
+   "level": 3,
+   "page": 4,
+   "desc": "תוכנית אסמבלי שמוסיפה 1 לכל איברי מערך פרט לשניים הראשונים"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 5,
+   "topic": "comb",
+   "pts": null,
+   "kind": "open",
+   "level": 4,
+   "page": 5,
+   "desc": "תכנון מקודד עדיפות (priority encoder) לבקשות מהתקני קלט/פלט"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 6,
+   "topic": "bool",
+   "pts": null,
+   "kind": "open",
+   "level": 3,
+   "page": 7,
+   "desc": "שרטוט f = xz + yz + x̄ȳ בשערי Not/And/Or עם מינימום שערי And"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 7,
+   "topic": "fsm",
+   "pts": null,
+   "kind": "open",
+   "level": 4,
+   "page": 8,
+   "desc": "מעגל עם FF ורכיב חיסור Sub — מה f(x) שהוא מחשב"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 8,
+   "topic": "fsm",
+   "pts": null,
+   "kind": "open",
+   "level": 2,
+   "page": 8,
+   "desc": "מדוע המעגל מהשאלה הקודמת ניתן לתיאור כמכונת מילי"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 9,
+   "topic": "arith",
+   "pts": null,
+   "kind": "mc",
+   "level": 4,
+   "page": 10,
+   "desc": "הרחבת המעגל למספרים מכוונים בני 8 סיביות — איזה גרף מתאר את הפלט"
+  },
+  {
+   "also": [],
+   "exam": "s18a1",
+   "n": 10,
+   "topic": "timing",
+   "pts": null,
+   "kind": "open",
+   "level": 3,
+   "page": 11,
+   "desc": "חישוב tpd(Z→Q) לפי tpd,LH ו־tpd,HL של NOT/OR/NAND"
+  },
+  {
+   "also": [
+    "sv"
+   ],
+   "exam": "s18a1",
+   "n": 11,
+   "topic": "bool",
+   "pts": null,
+   "kind": "mc",
+   "level": 4,
+   "page": 12,
+   "desc": "שישה ייצוגים של פונקציה צירופית (ורילוג, טבלה, קרנו, FA, בורר) — איזה אינו שקול"
+  },
+  {
+   "also": [],
+   "exam": "s18a2",
+   "n": 1,
+   "topic": "pipec",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 19,
+   "desc": "הוספת רגיסטרים למערכת צירופית כדי לצנר אותה — היכן ובכמה"
+  },
+  {
+   "also": [
+    "fsm"
+   ],
+   "exam": "s18a2",
+   "n": 2,
+   "topic": "sv",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 21,
+   "desc": "קוד Verilog של מכונת מצבים — ציור הדיאגרמה וקביעה אם Moore או Mealy"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "s18a2",
+   "n": 3,
+   "topic": "sc",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 23,
+   "desc": "בקרת מכונת כביסה: Single-Cycle מול Multi-Cycle — במה כדאי לבחור"
+  },
+  {
+   "also": [
+    "serial"
+   ],
+   "exam": "s18a2",
+   "n": 4,
+   "topic": "asm",
+   "pts": 20,
+   "kind": "open",
+   "level": 5,
+   "page": 24,
+   "desc": "GPIO ממופה זיכרון בכתובת 0x10012000 — מימוש משדר UART באסמבלי"
+  },
+  {
+   "also": [],
+   "exam": "s18a2",
+   "n": 5,
+   "topic": "asm",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 26,
+   "desc": "פונקציית zero_max שמאפסת את האיבר הגדול ביותר במערך"
+  },
+  {
+   "also": [],
+   "exam": "s18a2",
+   "n": 6,
+   "topic": "mc",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 28,
+   "desc": "פקודת lwpinc ‏(load word post increment) למעבר יעיל על מערכים ב־stride"
+  },
+  {
+   "also": [],
+   "exam": "s18b1",
+   "n": 1,
+   "topic": "num",
+   "pts": 10,
+   "kind": "mc",
+   "level": 3,
+   "page": 37,
+   "desc": "הרצף 10010110 — איזו אפשרות (עשרוני, BCD, …) אינה מיוצגת על ידו"
+  },
+  {
+   "also": [],
+   "exam": "s18b1",
+   "n": 2,
+   "topic": "bool",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 38,
+   "desc": "האם f = y + x̄z̄ + w̄xz מערכת פעולות שלמה, ומימוש שער AND ממנה"
+  },
+  {
+   "also": [],
+   "exam": "s18b1",
+   "n": 3,
+   "topic": "timing",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 40,
+   "desc": "מערכת FF1–CL1–FF2–CL2 — תנאי התזמון וזמן המחזור"
+  },
+  {
+   "also": [],
+   "exam": "s18b1",
+   "n": 4,
+   "topic": "bool",
+   "pts": 10,
+   "kind": "open",
+   "level": 3,
+   "page": 42,
+   "desc": "שתי פונקציות f ו־g ומעגל צירופי הבנוי מהן — מה הוא מחשב"
+  },
+  {
+   "also": [
+    "arith"
+   ],
+   "exam": "s18b1",
+   "n": 5,
+   "topic": "comb",
+   "pts": 20,
+   "kind": "open",
+   "level": 3,
+   "page": 43,
+   "desc": "טבלת אמת ומימוש משווה בין שני מספרים לא מכוונים בני 2 סיביות"
+  },
+  {
+   "also": [],
+   "exam": "s18b1",
+   "n": 6,
+   "topic": "arith",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 47,
+   "desc": "גלישה עילית ותחתית בחיבור משלים ל־2 — זיהוי ומימוש"
+  },
+  {
+   "also": [],
+   "exam": "s18b2",
+   "n": 1,
+   "topic": "fsm",
+   "pts": 15,
+   "kind": "open",
+   "level": 3,
+   "page": 56,
+   "desc": "מכונת Moore שבודקת מילה בת 2 סיביות מסיבית כניסה אחת"
+  },
+  {
+   "also": [
+    "arith"
+   ],
+   "exam": "s18b2",
+   "n": 2,
+   "topic": "pipec",
+   "pts": 25,
+   "kind": "open",
+   "level": 5,
+   "page": 57,
+   "desc": "מימוש f(x) = x⁵ ממכפלים ו־FF — latency מינימלי ואז throughput"
+  },
+  {
+   "also": [],
+   "exam": "s18b2",
+   "n": 3,
+   "topic": "asm",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 60,
+   "desc": "תוכנית שמאתחלת מערך כסדרה חשבונית בקפיצות של 3"
+  },
+  {
+   "also": [],
+   "exam": "s18b2",
+   "n": 4,
+   "topic": "exc",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 65,
+   "desc": "רגיסטר SCAUSE עם שתי פסיקות חיצוניות INT0 ו־INT1 — שגרת הטיפול"
+  },
+  {
+   "also": [],
+   "exam": "s18b2",
+   "n": 5,
+   "topic": "mc",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 71,
+   "desc": "שיפור מכונת המצבים של Multi-Cycle לחיסכון במחזורים עבור חלק מהפקודות"
+  },
+  {
+   "also": [],
+   "exam": "s18b2",
+   "n": 6,
+   "topic": "mc",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 73,
+   "desc": "מברשת שיניים חכמה: בקר ב־ROM עם שני DISPATCH-ROMS — תקלה ותיקון"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 1,
+   "topic": "pipec",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 103,
+   "desc": "טענות על הקשר בין Throughput ל־Latency במערכת צירופית ובמצונרת"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 2,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 104,
+   "desc": "המקלט תוכנן בטעות לדגום כל Tbit+δ — עד איזה δ השידור עוד תקין"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 3,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 105,
+   "desc": "\"חלון אחדים\" במערכת צירופית לפי tcd ו־tpd של הרכיבים"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 4,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 106,
+   "desc": "קוד עולה ממש לספרות 0–9 בארבע סיביות — האם קיים ומה תכונותיו"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 5,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 107,
+   "desc": "מהחלוקה P₃ = (ABC)(DEFG)(HIJ) — מה המסקנה החזקה ביותר"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 6,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 108,
+   "desc": "מהפך בכניסת השעון של FF2 — בדיקת setup ו־hold"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 7,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 110,
+   "desc": "מספר פקודות ה־NOP המינימלי כדי שהקוד ירוץ כשורה"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 8,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 111,
+   "desc": "הוספת Branch Prediction כשכל מנגנוני Forwarding ו־Stall פעילים"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 9,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 112,
+   "desc": "קוד Verilog עם always @(clk) — האם הפלט זהה בסינתזה ובסימולציה"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 10,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 114,
+   "desc": "תקלה: בפקודת lw מדלגים מ־EXE ישר ל־WB — מה ההשפעה"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 11,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 115,
+   "desc": "מכונת Moore שמוציאה 1 כשארבע הסיביות האחרונות הן 1001 או 1110"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 12,
+   "topic": "sc",
+   "pts": 20,
+   "kind": "open",
+   "level": 4,
+   "page": 116,
+   "desc": "Branch Comparator עם יציאה יחידה Beq — תמיכה גם ב־bne"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 13,
+   "topic": "asm",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 120,
+   "desc": "קריאה ל־SECRET_FUNC שמקבלת כתובת בזיכרון — השלמת קוד הקורא"
+  },
+  {
+   "also": [],
+   "exam": "w19a",
+   "n": 14,
+   "topic": "pipec",
+   "pts": 15,
+   "kind": "open",
+   "level": 4,
+   "page": 122,
+   "desc": "רכיב \"×5\" עם tpd = 4µs — בניית מערכת שמחשבת חזקות וצינורה"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 1,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 197,
+   "desc": "קוד SystemVerilog z = (a<<2)+1 — איזה קטע קוד שקול לו"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 2,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 199,
+   "desc": "קוד 2 out of 4 — תכונות הקוד ומספר מילות הקוד"
+  },
+  {
+   "also": [
+    "num"
+   ],
+   "exam": "s19a",
+   "n": 3,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 200,
+   "desc": "מכונה שבודקת אמינות הקו: האם מתוך 3 המילים האחרונות התקבלו מילים לא חוקיות"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 4,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 201,
+   "desc": "טענות על קוד גריי: X⊕ψX, סדר ויחידות הייצוג"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 5,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 202,
+   "desc": "זמני השהיה של CL1/CL2 ותנאי hold ו־setup של FF1"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 6,
+   "topic": "arith",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 203,
+   "desc": "הכפלת מספר בן n סיביות פי 5 ברכיבי Full Adder וקבועים בלבד"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 7,
+   "topic": "asm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 204,
+   "desc": "קוד שמתחיל מ־main עם מחסנית וקריאה לפונקציה — מה התוצאה"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 8,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 205,
+   "desc": "פרוטוקול XUART עם X סיביות מידע — תנאי הדגימה"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 9,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 206,
+   "desc": "טבלת מעברים נתונה — לאיזו סדרת קלט היציאה 1 במחזור החמישי"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 10,
+   "topic": "sc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 208,
+   "desc": "פקודת sPC בפורמט S-type ששומרת את ה־PC בזיכרון"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 11,
+   "topic": "pipec",
+   "pts": 7,
+   "kind": "open",
+   "level": 3,
+   "page": 209,
+   "desc": "צינור מערכת צירופית עם שלוש כניסות — מספר הרגיסטרים והתפוקה"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 12,
+   "topic": "sc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 211,
+   "desc": "תקלה: הסיגנל MemRW תקוע על Write — אילו פקודות ייפגעו"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "s19a",
+   "n": 13,
+   "topic": "sc",
+   "pts": 7,
+   "kind": "open",
+   "level": 4,
+   "page": 213,
+   "desc": "לאיזה תחום של TSC/TMC ה־Multi-Cycle מהיר מה־Single-Cycle"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 14,
+   "topic": "mc",
+   "pts": 8,
+   "kind": "open",
+   "level": 3,
+   "page": 215,
+   "desc": "Multi-Cycle בזמן מחזור 100ns ופילוח פקודות נתון — זמן הריצה"
+  },
+  {
+   "also": [
+    "asm"
+   ],
+   "exam": "s19a",
+   "n": 15,
+   "topic": "pp",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 217,
+   "desc": "קוד C שרץ על שני מעבדי RISC-V שנבדלים ביניהם — השוואת זמנים"
+  },
+  {
+   "also": [],
+   "exam": "s19a",
+   "n": 16,
+   "topic": "pp",
+   "pts": 7,
+   "kind": "open",
+   "level": 4,
+   "page": 219,
+   "desc": "lw/addi/sub/sw עם forwarding מלא ויחידת hazard detection — ספירת מחזורים"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 1,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 241,
+   "desc": "שני מודולים עם parameter N=3 — מה ההבדל בהתנהגות"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 2,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 243,
+   "desc": "שיטת \"גודל וסימן\" לייצוג מספרים בעלי סימן — טווח ותכונות"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 3,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 245,
+   "desc": "קוד חזרות באורך r > 2 — יכולת גילוי ותיקון שגיאות"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 4,
+   "topic": "arith",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 246,
+   "desc": "חיבור שני רגיסטרים בני 3 ביטים עם CarryOut — מימוש ברכיבי FA"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 5,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 247,
+   "desc": "הפונקציה צומצמה למכפלת סכומים x·(z′+y) — מה נכון לגבי סכום המכפלות"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 6,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 248,
+   "desc": "מעגל עם skew על השעון בין FFA ל־FFB — תנאי התזמון"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 7,
+   "topic": "asm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 249,
+   "desc": "קוד עם slli/add/mul כאשר s0=x, s1, s2 — מה הביטוי המתקבל"
+  },
+  {
+   "also": [
+    "bool"
+   ],
+   "exam": "s19b",
+   "n": 8,
+   "topic": "arith",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 250,
+   "desc": "מימוש f = Σ(0,2,5,8,10,13,15) עם don’t care ברכיבי FA וקבועים"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 9,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 5,
+   "page": 251,
+   "desc": "מנעול סדרתי בן 3 ספרות עם 3 הזדמנויות לכל ספרה — תכנון המכונה"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 10,
+   "topic": "timing",
+   "pts": 7,
+   "kind": "open",
+   "level": 4,
+   "page": 253,
+   "desc": "מעגל FF1–FF2–FF3 בזמן מחזור 15ns כשנתוני שער ה־NOT חסרים"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 11,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "open",
+   "level": 4,
+   "page": 255,
+   "desc": "UART של 8 סיביות שצריך להעביר מילים בנות 32 סיביות ב־1000 מילים לשנייה"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 12,
+   "topic": "mc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 256,
+   "desc": "פקודת push שמקבלת רגיסטר יחיד — מימוש ב־Multi-Cycle"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 13,
+   "topic": "asm",
+   "pts": 12,
+   "kind": "open",
+   "level": 5,
+   "page": 258,
+   "desc": "מכפלה סקלרית בין שני וקטורים השמורים כמערכים בזיכרון"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 14,
+   "topic": "mc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 261,
+   "desc": "תקלה: הקו IRwrite חובר קבוע ל־1 — האם קיימת פקודה שתרוץ נכון"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 15,
+   "topic": "mc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 263,
+   "desc": "פקודת dam ‏(double access memory): Reg[rd] = Mem[Mem[rs+imm]]"
+  },
+  {
+   "also": [],
+   "exam": "s19b",
+   "n": 16,
+   "topic": "exc",
+   "pts": 7,
+   "kind": "open",
+   "level": 2,
+   "page": 264,
+   "desc": "חריגות ופסיקות: דוגמאות לכל אחת וההבדל באופן הטיפול"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 1,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 266,
+   "desc": "האם {FA} ו־{FA, f, g} מהוות מערכת פעולות שלמה"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 2,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 267,
+   "desc": "האם ניתן להקטין את Tmin תוך שמירת כללי התזמון של המעגל"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 3,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 268,
+   "desc": "שידור M3P2M2P1M1 עם סיביות זוגיות — פענוח המילה שהתקבלה"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 4,
+   "topic": "comb",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 269,
+   "desc": "הפונקציה L(a,b,c,d) ממומשת בבורר 4→1 — מהי L"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 5,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 270,
+   "desc": "always_ff עם השמות blocking ו־non-blocking מעורבות — מה קורה בפועל"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 6,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 272,
+   "desc": "UART עם Tbit=5µs ותדר 2MHz בשני הצדדים — אורך המילה המקסימלי"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 7,
+   "topic": "sc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 273,
+   "desc": "הוספת שתי פקודות קפיצה חדשות ל־Single Cycle RISC-V"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "k19b",
+   "n": 8,
+   "topic": "exc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 274,
+   "desc": "תמיכה בגלישה ב־R-Type ובפקודה בלתי חוקית דרך טבלאות ה־Dispatch ROM"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 9,
+   "topic": "asm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 275,
+   "desc": "מערך A וקשר בין איבריו כשהמשתנה g שמור ב־t0 — כתיבת הקוד"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 10,
+   "topic": "pipec",
+   "pts": 10,
+   "kind": "open",
+   "level": 3,
+   "page": 276,
+   "desc": "צינור מערכת עם FF אידיאליים — התפוקה ומספר הרגיסטרים"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 11,
+   "topic": "pp",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 277,
+   "desc": "שתי ארכיטקטורות צינור שנבדלות בשלב הכרעת הקפיצה — השוואה"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 12,
+   "topic": "asm",
+   "pts": 6,
+   "kind": "open",
+   "level": 3,
+   "page": 279,
+   "desc": "קוד שמעתיק מערך מכתובת ב־a0 לכתובת ב־a1 — השלמה ותיקון"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 13,
+   "topic": "pp",
+   "pts": 9,
+   "kind": "open",
+   "level": 4,
+   "page": 280,
+   "desc": "add/sub/beq/lw/sw על מעבד צינור — ניתוח hazards וספירת מחזורים"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 14,
+   "topic": "pp",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 281,
+   "desc": "שלוש פקודות add/add/sub על אותו רגיסטר עם forwarding — מאיפה כל ערך"
+  },
+  {
+   "also": [],
+   "exam": "k19b",
+   "n": 15,
+   "topic": "pp",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 282,
+   "desc": "שתי אופציות לטיפול ב־branch (ב־EXE מול מאוחר) — מה עדיף ומדוע"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 1,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 297,
+   "desc": "מכונת מצבים ב־SystemVerilog עם typedef enum — מה יוצא ב־out"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 2,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 300,
+   "desc": "f מוציאה 1 אמ״מ יש לפחות שלושה אפסים בכניסות — מהו הייצוג המצומצם"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 3,
+   "topic": "timing",
+   "pts": 6,
+   "kind": "mc",
+   "level": 5,
+   "page": 301,
+   "desc": "Jitter בשעון של FF — עד איזו סטייה המעגל עומד במשטר הזמנים"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 4,
+   "topic": "pipec",
+   "pts": 6,
+   "kind": "mc",
+   "level": 4,
+   "page": 303,
+   "desc": "מערכת מ־7 יחידות צירופיות זהות מסוג α — צינור המערכת"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 5,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 306,
+   "desc": "פרוטוקול טורי עם 14 סיביות מידע — תנאי הדגימה של סיבית הסיום"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 6,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 306,
+   "desc": "המשך: סיבית ההתחלה מתקבלת בדיוק בעליית שעון המקלט — מה משתנה"
+  },
+  {
+   "also": [
+    "mc",
+    "pp"
+   ],
+   "exam": "w20a",
+   "n": 7,
+   "topic": "sc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 307,
+   "desc": "זמני מחזור 6ns / 1.25ns / 1ns לשלוש הארכיטקטורות — מי מסיים ראשון"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 8,
+   "topic": "pp",
+   "pts": 6,
+   "kind": "mc",
+   "level": 4,
+   "page": 308,
+   "desc": "כמה מחזורי שעון עד שפקודה 9 מסיימת WB כשהקפיצה אינה נלקחת"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 9,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 310,
+   "desc": "צינור ללא hazard detection וללא forwarding כלל — ניתוח הרצה"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "w20a",
+   "n": 10,
+   "topic": "exc",
+   "pts": 6,
+   "kind": "mc",
+   "level": 4,
+   "page": 311,
+   "desc": "תוכנית עם sub/lw/unknown על Multi-Cycle התומך בכל החריגות — מה יקרה"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 11,
+   "topic": "isa",
+   "pts": 6,
+   "kind": "mc",
+   "level": 4,
+   "page": 312,
+   "desc": "פענוח שתי פקודות מקוד בינארי גולמי לפי פורמט RISC-V"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 12,
+   "topic": "sc",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 313,
+   "desc": "פקודת StorePC שמשתמשת בכתובת ה־PC — מימוש ב־Single Cycle"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 13,
+   "topic": "fsm",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 315,
+   "desc": "בקרת טמפרטורת מקרר לעוגת גבינה — תכנון מכונת מצבים"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 14,
+   "topic": "mc",
+   "pts": 9,
+   "kind": "open",
+   "level": 4,
+   "page": 316,
+   "desc": "פקודת MAC ‏(rd = rd + rs1·rs2) — השינויים במסלול הנתונים"
+  },
+  {
+   "also": [
+    "sc"
+   ],
+   "exam": "w20a",
+   "n": 15,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 317,
+   "desc": "פקודת lrsi ששומרת מילה מהזיכרון מכתובת מחוברת — מימוש כפקודת מכונה"
+  },
+  {
+   "also": [],
+   "exam": "w20a",
+   "n": 16,
+   "topic": "bool",
+   "pts": 6,
+   "kind": "mc",
+   "level": 3,
+   "page": 318,
+   "desc": "צמצום f = Σ(2,3,4,5,6,7,8,10,12,13)"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 1,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 335,
+   "desc": "מודול שמשתמש ב־counter בן 2 ביטים — מה ההתנהגות בפועל"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 2,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 337,
+   "desc": "איזו מפקודות האסמבלי לא ניתן לממש כפקודה אמיתית ב־Multi-Cycle"
+  },
+  {
+   "also": [
+    "num"
+   ],
+   "exam": "w20b",
+   "n": 3,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 338,
+   "desc": "רעש שהופך סיבית אחת מתוך 8 בכל שידור — יכולת הגילוי"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 4,
+   "topic": "comb",
+   "pts": 5,
+   "kind": "mc",
+   "level": 2,
+   "page": 338,
+   "desc": "מימוש F = xy + z′ בשערי NAND בעלי שתי כניסות — מספר מינימלי"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 5,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 338,
+   "desc": "Mealy שמוציאה Z=1 אמ״מ אינדקס הכניסה זוגי ומספר האחדים זוגי"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 6,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 339,
+   "desc": "תכנון מתגי P ו־N שמממש שער OR — איזה מימוש נכון"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 7,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 341,
+   "desc": "הוספת ביט זוגיות לקוד גריי באורך n — יכולת גילוי השגיאות"
+  },
+  {
+   "also": [
+    "num"
+   ],
+   "exam": "w20b",
+   "n": 8,
+   "topic": "comb",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 342,
+   "desc": "אילו מימושים בבוררים ממירים מספר בן 2 סיביות מייצוג ללא סימן"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 9,
+   "topic": "asm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 345,
+   "desc": "פונקציה עם sp, שמירת ra ו־blt — האם היא עומדת בקונבנציית הקריאה"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 10,
+   "topic": "sc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 346,
+   "desc": "פקודת adM ‏(add memory) שנוספה ל־Single Cycle — מה נדרש"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 11,
+   "topic": "timing",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 347,
+   "desc": "FF1, FF2 ו־CL1 עם זמנים נתונים — זמן המחזור המינימלי"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 12,
+   "topic": "pipec",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 348,
+   "desc": "צינור מערכת שמוצאה מהיחידה המרכזית — התפוקה והרגיסטרים"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 13,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 350,
+   "desc": "Multi-Cycle שתומך ב־MAC — מהו קו הבקרה של ה־Mux בכניסת ה־RegFile"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "w20b",
+   "n": 14,
+   "topic": "exc",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 351,
+   "desc": "טיפול בחריגות בשיטת קוד הגורם — פעולות מערכת ההפעלה"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 15,
+   "topic": "pp",
+   "pts": 10,
+   "kind": "open",
+   "level": 5,
+   "page": 353,
+   "desc": "צינור ללא HDU, ללא forwarding וללא יכולת flush — מה קורה לקוד"
+  },
+  {
+   "also": [],
+   "exam": "w20b",
+   "n": 16,
+   "topic": "fsm",
+   "pts": 15,
+   "kind": "open",
+   "level": 5,
+   "page": 355,
+   "desc": "מכונת מילי שמזהה את הרצפים A=1001 ו־B=1100"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 1,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 382,
+   "desc": "מודול עם a[1:0] ו־b ושלוש יציאות — מה הערכים שלהן"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 2,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 384,
+   "desc": "קוד ממילים בנות 4 ביט — כיצד לשפר את יכולת גילוי השגיאות"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 3,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 386,
+   "desc": "תכנון Pipeline עם forwarding מלא (בהתעלם מתנאי hold) — איזו הצעה עובדת"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 4,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 389,
+   "desc": "המשך: שלוש ההצעות תחת ההנחה שקפיצות אינן מתבצעות — מה קורה כשכן"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 5,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 390,
+   "desc": "f מזהה התחלקות ב־3 ו־g נתונה — היחס בין הפונקציות"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 6,
+   "topic": "comb",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 392,
+   "desc": "מימוש f עם don’t care בבוררים בגדלים שונים ושערי AND/OR"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 7,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 394,
+   "desc": "איזו מהפקודות לא ניתן לממש כפקודה אמיתית ב־Multi-Cycle"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 8,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 395,
+   "desc": "טבלת מעברים של מערכת עקיבה עם כניסה X ומוצא Z — צמצום או מעקב"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 9,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 397,
+   "desc": "תקשורת חיפה–תל אביב ב־UART בסיסי — קצב וזמני דגימה"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 10,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 399,
+   "desc": "תקלה בכתיבה ל־register file ב־Multi-Cycle — אילו פקודות ייפגעו"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 11,
+   "topic": "pipec",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 401,
+   "desc": "צינור עם רגיסטרים אידיאליים לתפוקה מקסימלית — מספר הרגיסטרים"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "s20a",
+   "n": 12,
+   "topic": "exc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 403,
+   "desc": "Multi-Cycle שמפסיק את ריצת התוכנית בקבלת חריגה — מה נדרש"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "s20a",
+   "n": 13,
+   "topic": "exc",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 405,
+   "desc": "חריגת חלוקה באפס ב־Multi-Cycle — הפרדה למצבים וטיפול"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 14,
+   "topic": "asm",
+   "pts": 8,
+   "kind": "open",
+   "level": 5,
+   "page": 409,
+   "desc": "מימוש אלגוריתם bubble sort באסמבלי על מערך של מילים"
+  },
+  {
+   "also": [],
+   "exam": "s20a",
+   "n": 15,
+   "topic": "asm",
+   "pts": 8,
+   "kind": "open",
+   "level": 4,
+   "page": 411,
+   "desc": "מימוש פקודת dlw כפסאודו־פקודה מפקודות קיימות"
+  },
+  {
+   "also": [
+    "timing"
+   ],
+   "exam": "s20b",
+   "n": 1,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 421,
+   "desc": "שני מימושים שונים לאותה f — במה הם נבדלים בזמני ההשהיה"
+  },
+  {
+   "also": [
+    "mc",
+    "pp"
+   ],
+   "exam": "s20b",
+   "n": 2,
+   "topic": "sc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 423,
+   "desc": "זמני מחזור נתונים לכל הארכיטקטורות — מי מריץ את התוכנית מהר יותר"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 3,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 424,
+   "desc": "שני מודולים my_ff עם out ו־outn — מה ההבדל בהתנהגות"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 4,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 426,
+   "desc": "שתי מכונות Moore שמתייחסות לרצף הנקלט כמספר בינארי — השוואה"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 5,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 428,
+   "desc": "משדר 150MHz ומקלט 30MHz — האם התקשורת אפשרית ובאיזה קצב"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 6,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 430,
+   "desc": "f ו־g נתונות ב־Σ ו־Π, ו־h מוגדרת מהן — צמצום h"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 7,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 432,
+   "desc": "שינוי פורמט הנקודה הצפה לטווח קטן יותר — כמה סיביות חוסכים"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 8,
+   "topic": "pipec",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 433,
+   "desc": "שיווק המערכת כקופסה שחורה עם שתי כניסות — מה הקונה יכול להסיק"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 9,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 2,
+   "page": 435,
+   "desc": "מהו המימוש המצומצם ביותר של המעגל הצירופי הנתון"
+  },
+  {
+   "also": [
+    "mc"
+   ],
+   "exam": "s20b",
+   "n": 10,
+   "topic": "exc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 437,
+   "desc": "תמיכה בחריגת גלישה ב־ALU במעבד Multi-Cycle"
+  },
+  {
+   "also": [
+    "mem"
+   ],
+   "exam": "s20b",
+   "n": 11,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 438,
+   "desc": "החלפת רכיב הזיכרון ב־Multi-Cycle ביחידה עם 3 כניסות מידע"
+  },
+  {
+   "also": [
+    "mem"
+   ],
+   "exam": "s20b",
+   "n": 12,
+   "topic": "sc",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 440,
+   "desc": "אותה יחידת זיכרון חלופית, הפעם במעבד Single Cycle"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 13,
+   "topic": "pp",
+   "pts": 13,
+   "kind": "open",
+   "level": 5,
+   "page": 442,
+   "desc": "צינור עם Bypass ב־Register File בלבד — ניתוח מלא של ההרצה"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 14,
+   "topic": "mc",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 445,
+   "desc": "פקודת StorePC ב־Multi-Cycle — מצבים ושינויים במסלול הנתונים"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 15,
+   "topic": "pp",
+   "pts": 7,
+   "kind": "open",
+   "level": 3,
+   "page": 447,
+   "desc": "צינור עם HDU ו־forwarding מלא (WB-DEC, WB-EXE, MEM-EXE) — ספירת מחזורים"
+  },
+  {
+   "also": [],
+   "exam": "s20b",
+   "n": 16,
+   "topic": "asm",
+   "pts": 10,
+   "kind": "open",
+   "level": 5,
+   "page": 449,
+   "desc": "מימוש חיפוש בינארי באסמבלי על מערך ממוין"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 1,
+   "topic": "num",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 452,
+   "desc": "אילו מהמספרים לא ניתן לייצג במדויק בנקודה צפה עם B=127"
+  },
+  {
+   "also": [
+    "asm"
+   ],
+   "exam": "k20b",
+   "n": 2,
+   "topic": "mc",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 453,
+   "desc": "חישוב נורמה של מערך בזיכרון — הוספת תמיכה ב־Multi-Cycle"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 3,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 455,
+   "desc": "שני מעבדי צינור עם HDU ו־forwarding מלא — השוואה על תוכנית נתונה"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 4,
+   "topic": "bool",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 456,
+   "desc": "כמה פונקציות בשני משתנים מקיימות f(a,b̄) = f(ā,b)"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 5,
+   "topic": "fsm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 457,
+   "desc": "מכונת המצבים היעילה ביותר שמוציאה 1 כששלושת הביטים האחרונים שווים"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 6,
+   "topic": "serial",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 459,
+   "desc": "UART עם fT=5MHz ו־fR=1MHz וטעות בתכנון — מה ההשפעה"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 7,
+   "topic": "pipec",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 460,
+   "desc": "צינור מערכת שמוצאה מהיחידה המרכזית — התפוקה"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 8,
+   "topic": "asm",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 462,
+   "desc": "קוד שמתחיל מ־main עם מחסנית וקריאות — מה הערך המוחזר"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 9,
+   "topic": "sv",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 463,
+   "desc": "שתי אופציות SystemVerilog עם פרמטר N שלא נקבע — מה ההבדל"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 10,
+   "topic": "comb",
+   "pts": 5,
+   "kind": "mc",
+   "level": 3,
+   "page": 464,
+   "desc": "האם ניתן לממש f = Σ(1,2,4,7) בשני בוררים 4→1 וקבועים"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 11,
+   "topic": "pp",
+   "pts": 5,
+   "kind": "mc",
+   "level": 4,
+   "page": 466,
+   "desc": "קוד עם slli/add/sub/lw על צינור — זיהוי ה־hazards"
+  },
+  {
+   "also": [
+    "timing"
+   ],
+   "exam": "k20b",
+   "n": 12,
+   "topic": "pipec",
+   "pts": 9,
+   "kind": "open",
+   "level": 5,
+   "page": 468,
+   "desc": "מערכת סינכרונית עם Adder ובורר וקלט בן 8 סיביות — צינורה"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 13,
+   "topic": "exc",
+   "pts": 8,
+   "kind": "open",
+   "level": 3,
+   "page": 471,
+   "desc": "דוגמה לחריגה, וכמה חריגות ניתן לייצג בסיביות של SCAUSE"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 14,
+   "topic": "bool",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 473,
+   "desc": "תכנון מערכת צירופית שבוחרת קורס לפי קריטריונים"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 15,
+   "topic": "sc",
+   "pts": 8,
+   "kind": "open",
+   "level": 3,
+   "page": 475,
+   "desc": "זמני השהיה של רכיבי Single Cycle — חישוב זמן המחזור והריצה"
+  },
+  {
+   "also": [],
+   "exam": "k20b",
+   "n": 16,
+   "topic": "asm",
+   "pts": 10,
+   "kind": "open",
+   "level": 4,
+   "page": 476,
+   "desc": "מימוש פקודת dla כפסאודו־פקודה מפקודות קיימות"
   }
  ]
 }
