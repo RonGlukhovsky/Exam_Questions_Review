@@ -1,0 +1,543 @@
+<title>044252 — מעקב שאלות עבר לפי נושאים</title>
+
+<style>
+  :root {
+    --bg:        #F4F5F1;
+    --surface:   #FFFFFF;
+    --surface-2: #EAECE5;
+    --text:      #14201E;
+    --dim:       #5B6A65;
+    --faint:     #8C9894;
+    --line:      #D7DBD2;
+    --line-soft: #E6E9E1;
+    --accent:    #0F6E5E;
+    --done-bg:   #E7F1ED;
+    --arch:  #A9740E;
+    --comb:  #0F6E5E;
+    --seq:   #474DA6;
+    --uarch: #A33F29;
+    --shadow: 0 1px 2px rgba(20,32,30,.06), 0 6px 18px -12px rgba(20,32,30,.22);
+    --heb: "Assistant","Heebo","Rubik","Arial Hebrew","Noto Sans Hebrew",system-ui,-apple-system,sans-serif;
+    --mono: ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
+      --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
+      --accent:#3EBFA4; --done-bg:#10231F;
+      --arch:#DFA93C; --comb:#3EBFA4; --seq:#8D93E9; --uarch:#E37A5F;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
+    --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
+    --accent:#3EBFA4; --done-bg:#10231F;
+    --arch:#DFA93C; --comb:#3EBFA4; --seq:#8D93E9; --uarch:#E37A5F;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
+  }
+  :root[data-theme="light"] {
+    --bg:#F4F5F1; --surface:#FFFFFF; --surface-2:#EAECE5; --text:#14201E;
+    --dim:#5B6A65; --faint:#8C9894; --line:#D7DBD2; --line-soft:#E6E9E1;
+    --accent:#0F6E5E; --done-bg:#E7F1ED;
+    --arch:#A9740E; --comb:#0F6E5E; --seq:#474DA6; --uarch:#A33F29;
+    --shadow: 0 1px 2px rgba(20,32,30,.06), 0 6px 18px -12px rgba(20,32,30,.22);
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  .page {
+    direction: rtl; background: var(--bg); color: var(--text);
+    font-family: var(--heb); font-size: 15px; line-height: 1.55;
+    min-block-size: 100vh; padding: 28px clamp(14px, 3vw, 40px) 64px; overflow-x: hidden;
+  }
+  .shell { max-inline-size: 1560px; margin-inline: auto; display: flex; flex-direction: column; gap: 20px; }
+
+  .masthead { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 14px 24px; }
+  .masthead > div { flex: 1 1 460px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--faint); direction: ltr; text-align: start; margin-block-end: 6px;
+  }
+  h1 { font-size: clamp(25px, 3.6vw, 38px); line-height: 1.12; font-weight: 800; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
+  .sub { color: var(--dim); font-size: 14.5px; margin-block-start: 7px; max-inline-size: 58ch; }
+  .sub b { color: var(--text); font-weight: 700; }
+  .theme-btn {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    background: transparent; color: var(--dim); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 13px; cursor: pointer;
+  }
+  .theme-btn:hover { color: var(--text); border-color: var(--accent); }
+
+  .meter {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 10px 24px;
+    align-items: baseline; justify-content: space-between; box-shadow: var(--shadow);
+  }
+  .wave { flex: 1 0 100%; block-size: 46px; inline-size: 100%; display: block; }
+  .wave .track { stroke: var(--line); }
+  .wave .live  { stroke: var(--accent); }
+  .wave path { fill: none; stroke-width: 2.25; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
+  .meter-nums { display: flex; align-items: baseline; gap: 10px; font-family: var(--mono); }
+  .meter-nums .big { font-size: 30px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .meter-nums .of { font-size: 14px; color: var(--faint); }
+  .meter-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--dim); font-family: var(--mono); }
+  .meter-meta b { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .controls { display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+  .group { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .glabel { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+  .chip {
+    font: inherit; font-size: 13px; cursor: pointer; background: var(--surface); color: var(--dim);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip:hover { color: var(--text); }
+  .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip .dot { inline-size: 7px; block-size: 7px; border-radius: 50%; background: currentColor; opacity: .85; }
+  .chip.band-arch  .dot { background: var(--arch); }
+  .chip.band-comb  .dot { background: var(--comb); }
+  .chip.band-seq   .dot { background: var(--seq); }
+  .chip.band-uarch .dot { background: var(--uarch); }
+  .chip.year { font-family: var(--mono); font-size: 12px; }
+
+  .search {
+    font: inherit; font-size: 13.5px; color: var(--text); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 4px; padding: 7px 11px; inline-size: 210px;
+  }
+  .search::placeholder { color: var(--faint); }
+  .search:focus-visible, .chip:focus-visible, .theme-btn:focus-visible, .reset:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .reset {
+    font: inherit; font-size: 12.5px; cursor: pointer; background: transparent; color: var(--dim);
+    border: 1px dashed var(--line); border-radius: 4px; padding: 6px 12px;
+  }
+  .reset:hover { color: var(--uarch); border-color: var(--uarch); }
+
+  .frame {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    overflow: auto; max-block-size: min(82vh, 1000px); box-shadow: var(--shadow);
+  }
+  table { border-collapse: separate; border-spacing: 0; inline-size: auto; min-inline-size: 100%; }
+
+  thead th {
+    position: sticky; top: 0; z-index: 3; background: var(--surface-2);
+    border-block-end: 1px solid var(--line); padding: 10px 12px; text-align: start;
+    vertical-align: bottom; inline-size: 268px; min-inline-size: 268px;
+  }
+  thead th.corner {
+    inset-inline-start: 0; z-index: 5; min-inline-size: 208px; inline-size: 208px;
+    border-inline-end: 1px solid var(--line);
+  }
+  .col-year { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; color: var(--faint); }
+  .col-sem { font-size: 14.5px; font-weight: 700; }
+  .col-moed { font-size: 12.5px; color: var(--dim); }
+  .col-date { font-family: var(--mono); font-size: 11px; color: var(--faint); direction: ltr; }
+  .col-tally { font-family: var(--mono); font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; margin-block-start: 5px; }
+  .col-bar { block-size: 3px; background: var(--line); margin-block-start: 4px; }
+  .col-bar > i { display: block; block-size: 100%; background: var(--accent); }
+  .corner-title { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+
+  tbody th {
+    position: sticky; inset-inline-start: 0; z-index: 2; background: var(--surface);
+    text-align: start; vertical-align: top; padding: 12px; border-inline-end: 1px solid var(--line);
+    border-block-end: 1px solid var(--line-soft); min-inline-size: 208px; inline-size: 208px;
+  }
+  tbody td { vertical-align: top; padding: 9px; border-block-end: 1px solid var(--line-soft); border-inline-start: 1px solid var(--line-soft); }
+
+  tr.band > th, tr.band > td { background: var(--bg); padding: 7px 12px; border-block: 1px solid var(--line); }
+  tr.band > th { position: sticky; inset-inline-start: 0; z-index: 2; }
+  .band-name {
+    display: flex; align-items: center; gap: 9px; font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--dim);
+  }
+  .band-name .rule { flex: 1; block-size: 1px; background: var(--line); }
+  .band-name .tag { font-weight: 700; }
+  .band-heb { font-family: var(--heb); letter-spacing: 0; text-transform: none; font-size: 12.5px; color: var(--faint); }
+
+  .topic { font-size: 14px; font-weight: 700; line-height: 1.35; }
+  .topic-meta {
+    font-family: var(--mono); font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums;
+    margin-block-start: 5px; display: flex; align-items: center; gap: 7px; justify-content: flex-end;
+  }
+  tbody tr[data-band] th::after { content: ""; position: absolute; inset-block: 0; inset-inline-end: 0; inline-size: 3px; background: var(--band-hue); }
+  tr[data-band="arch"]  { --band-hue: var(--arch); }
+  tr[data-band="comb"]  { --band-hue: var(--comb); }
+  tr[data-band="seq"]   { --band-hue: var(--seq); }
+  tr[data-band="uarch"] { --band-hue: var(--uarch); }
+
+  .stack { display: flex; flex-direction: column; gap: 7px; }
+  .card {
+    display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-inline-start: 3px solid var(--band-hue); border-radius: 3px; padding: 9px 10px;
+    cursor: pointer; transition: border-color .12s, background .12s;
+  }
+  .card:hover { border-color: var(--band-hue); }
+  .card:has(input:checked) { background: var(--done-bg); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .card:has(input:checked) .q-desc { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
+  .card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card input { margin: 2px 0 0; inline-size: 15px; block-size: 15px; accent-color: var(--accent); cursor: pointer; }
+
+  .q-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .q-no { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--band-hue); font-variant-numeric: tabular-nums; }
+  .q-pts { font-family: var(--mono); font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .q-kind { font-size: 10px; letter-spacing: .04em; padding: 1px 6px; border-radius: 2px; border: 1px solid var(--line); color: var(--dim); background: var(--surface-2); }
+  .q-kind.open { border-color: color-mix(in srgb, var(--band-hue) 40%, var(--line)); color: var(--band-hue); }
+  .q-desc { font-size: 13px; line-height: 1.4; margin-block-start: 3px; }
+  .q-foot { display: flex; align-items: center; gap: 10px; margin-block-start: 6px; flex-wrap: wrap; }
+  .q-page { font-family: var(--mono); font-size: 10.5px; color: var(--faint); direction: ltr; }
+  .q-also { font-size: 10.5px; color: var(--faint); }
+
+  .level { display: inline-flex; gap: 2px; align-items: flex-end; block-size: 11px; }
+  .level i { inline-size: 3px; background: var(--line); border-radius: .5px; }
+  .level i:nth-child(1) { block-size: 4px; }
+  .level i:nth-child(2) { block-size: 6px; }
+  .level i:nth-child(3) { block-size: 8px; }
+  .level i:nth-child(4) { block-size: 9.5px; }
+  .level i:nth-child(5) { block-size: 11px; }
+  .level i.on { background: var(--band-hue); }
+
+  .empty { color: var(--line); font-family: var(--mono); font-size: 12px; padding: 4px 2px; }
+  .none { padding: 40px; text-align: center; color: var(--dim); }
+
+  footer.note {
+    color: var(--faint); font-size: 12.5px; border-block-start: 1px solid var(--line);
+    padding-block-start: 16px; display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between;
+  }
+  footer.note code { font-family: var(--mono); font-size: 11.5px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 720px) {
+    .page { padding: 20px 12px 48px; }
+    thead th, tbody th { min-inline-size: 168px; inline-size: 168px; }
+    thead th:not(.corner) { min-inline-size: 232px; inline-size: 232px; }
+    .frame { max-block-size: 74vh; }
+  }
+</style>
+
+<div class="page">
+<div class="shell">
+
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">EE 044252 &middot; Technion &middot; Digital Systems &amp; Computer Structure</div>
+      <h1>מעקב שאלות עבר לפי נושאים</h1>
+      <p class="sub">כל מועדי הבחינה מ־<b>2021–2026</b> — 21 מועדים, 351 שאלות — ממופים אל נושאי הסילבוס. סמנו שאלה כדי לסמן שנפתרה; ההתקדמות נשמרת בדפדפן.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button">מצב תצוגה</button>
+  </header>
+
+  <section class="meter" aria-label="התקדמות">
+    <svg class="wave" id="wave" viewBox="0 0 1240 46" preserveAspectRatio="none" aria-hidden="true">
+      <defs><clipPath id="clip"><rect id="clipRect" x="0" y="0" width="0" height="46"/></clipPath></defs>
+      <path class="track" id="pathTrack" d=""/>
+      <g clip-path="url(#clip)"><path class="live" id="pathLive" d=""/></g>
+    </svg>
+    <div class="meter-nums">
+      <span class="big" dir="ltr" id="doneCount">0</span>
+      <span class="of" dir="ltr">/ <span id="totalCount">0</span></span>
+      <span class="of">שאלות נפתרו</span>
+    </div>
+    <div class="meter-meta">
+      <span>ניקוד <b dir="ltr" id="ptsDone">0</b></span>
+      <span>אמריקאיות <b dir="ltr" id="mcTally">0/0</b></span>
+      <span>פתוחות <b dir="ltr" id="openTally">0/0</b></span>
+      <span>מוצג <b dir="ltr" id="visTally">0</b></span>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="סינון">
+    <div class="row">
+      <div class="group">
+        <span class="glabel">שנה</span>
+        <button class="chip year" data-year="all" aria-pressed="true" type="button">הכל</button>
+        <button class="chip year" data-year="2021" aria-pressed="false" type="button">2021</button>
+        <button class="chip year" data-year="2022" aria-pressed="false" type="button">2022</button>
+        <button class="chip year" data-year="2023" aria-pressed="false" type="button">2023</button>
+        <button class="chip year" data-year="2024" aria-pressed="false" type="button">2024</button>
+        <button class="chip year" data-year="2025" aria-pressed="false" type="button">2025</button>
+        <button class="chip year" data-year="2026" aria-pressed="false" type="button">2026</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="group">
+        <span class="glabel">אשכול</span>
+        <button class="chip" data-band="all" aria-pressed="true" type="button">הכל</button>
+        <button class="chip band-arch" data-band="arch" aria-pressed="false" type="button"><i class="dot"></i>ארכיטקטורה</button>
+        <button class="chip band-comb" data-band="comb" aria-pressed="false" type="button"><i class="dot"></i>צירופי</button>
+        <button class="chip band-seq" data-band="seq" aria-pressed="false" type="button"><i class="dot"></i>עקיבה</button>
+        <button class="chip band-uarch" data-band="uarch" aria-pressed="false" type="button"><i class="dot"></i>מיקרו־ארכיטקטורה</button>
+      </div>
+      <div class="group">
+        <span class="glabel">סוג</span>
+        <button class="chip" data-kind="all" aria-pressed="true" type="button">הכל</button>
+        <button class="chip" data-kind="mc" aria-pressed="false" type="button">אמריקאית</button>
+        <button class="chip" data-kind="open" aria-pressed="false" type="button">פתוחה</button>
+      </div>
+      <div class="group">
+        <span class="glabel">מצב</span>
+        <button class="chip" data-status="all" aria-pressed="true" type="button">הכל</button>
+        <button class="chip" data-status="todo" aria-pressed="false" type="button">לא נפתרו</button>
+        <button class="chip" data-status="done" aria-pressed="false" type="button">נפתרו</button>
+      </div>
+      <input class="search" id="search" type="search" placeholder="חיפוש בשאלות…" aria-label="חיפוש בשאלות">
+      <button class="reset" id="resetBtn" type="button">איפוס סימונים</button>
+    </div>
+  </section>
+
+  <div class="frame">
+    <table id="matrix">
+      <thead><tr id="headRow"></tr></thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+  <div class="none" id="noneMsg" hidden>אין שאלות שתואמות את הסינון.</div>
+
+  <footer class="note">
+    <span>מספרי העמודים מפנים לקובץ <code>All Past Exams 2018-2026.pdf</code> — לעמוד שבו מופיעה השאלה.</span>
+    <span>סילבוס: Arch &middot; Comb &middot; Seq &middot; µArch</span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+const BANDS = [
+  { id:'arch',  tag:'ARCH',  heb:'ארכיטקטורה, מספרים ואסמבלי' },
+  { id:'comb',  tag:'COMB',  heb:'לוגיקה צירופית ואריתמטיקה' },
+  { id:'seq',   tag:'SEQ',   heb:'מערכות עקיבה, תזמון ותקשורת' },
+  { id:'uarch', tag:'µARCH', heb:'מסלול הנתונים של RISC-V' },
+];
+
+const TOPICS = [
+  { id:'num',    band:'arch',  name:'ייצוג מספרים וקודים' },
+  { id:'asm',    band:'arch',  name:'אסמבלי RISC-V וקריאה לפונקציה' },
+  { id:'isa',    band:'arch',  name:'פורמט פקודות וקידוד ISA' },
+  { id:'bool',   band:'comb',  name:'אלגברה בוליאנית ומינימיזציה' },
+  { id:'comb',   band:'comb',  name:'רכיבים צירופיים: בוררים ומפענחים' },
+  { id:'arith',  band:'comb',  name:'אריתמטיקה' },
+  { id:'mem',    band:'comb',  name:'זיכרונות' },
+  { id:'sv',     band:'seq',   name:'SystemVerilog וסימולציה' },
+  { id:'fsm',    band:'seq',   name:'מכונות מצבים וצמצומן' },
+  { id:'timing', band:'seq',   name:'משטר זמנים: setup / hold / skew' },
+  { id:'pipec',  band:'seq',   name:'צינור מעגלים: תפוקה והשהיה' },
+  { id:'serial', band:'seq',   name:'תקשורת טורית' },
+  { id:'scan',   band:'seq',   name:'Scan ובדיקוּת' },
+  { id:'sc',     band:'uarch', name:'Single Cycle RISC-V' },
+  { id:'mc',     band:'uarch', name:'Multi-Cycle ומיקרוקוד' },
+  { id:'pp',     band:'uarch', name:'Pipeline RISC-V' },
+  { id:'exc',    band:'uarch', name:'חריגות ופסיקות' },
+];
+
+const EXAMS = [{"id":"w21a","sem":"חורף תשפ״א","moed":"מועד א׳","date":"04.02.2021","order":"2021-02-04","year":2021},{"id":"w21b","sem":"חורף תשפ״א","moed":"מועד ב׳","date":"07.03.2021","order":"2021-03-07","year":2021},{"id":"s21a","sem":"אביב תשפ״א","moed":"מועד א׳","date":"02.08.2021","order":"2021-08-02","year":2021},{"id":"s21b","sem":"אביב תשפ״א","moed":"מועד ב׳","date":"20.10.2021","order":"2021-10-20","year":2021},{"id":"w22a","sem":"חורף תשפ״ב","moed":"מועד א׳","date":"07.02.2022","order":"2022-02-07","year":2022},{"id":"w22b","sem":"חורף תשפ״ב","moed":"מועד ב׳","date":"06.03.2022","order":"2022-03-06","year":2022},{"id":"s22a","sem":"אביב תשפ״ב","moed":"מועד א׳","date":"03.08.2022","order":"2022-08-03","year":2022},{"id":"s22b","sem":"אביב תשפ״ב","moed":"מועד ב׳","date":"21.10.2022","order":"2022-10-21","year":2022},{"id":"w23a","sem":"חורף תשפ״ג","moed":"מועד א׳","date":"06.02.2023","order":"2023-02-06","year":2023},{"id":"w23b","sem":"חורף תשפ״ג","moed":"מועד ב׳","date":"09.03.2023","order":"2023-03-09","year":2023},{"id":"s23a","sem":"אביב תשפ״ג","moed":"מועד א׳","date":"03.08.2023","order":"2023-08-03","year":2023},{"id":"s23b","sem":"אביב תשפ״ג","moed":"מועד ב׳","date":"02.01.2024","order":"2024-01-02","year":2024},{"id":"w24a","sem":"חורף תשפ״ד","moed":"מועד א׳","date":"30.04.2024","order":"2024-04-30","year":2024},{"id":"w24b","sem":"חורף תשפ״ד","moed":"מועד ב׳","date":"28.05.2024","order":"2024-05-28","year":2024},{"id":"w24c","sem":"חורף תשפ״ד","moed":"טופס נוסף","date":"28.05.2024","order":"2024-05-29","year":2024},{"id":"s24a","sem":"אביב תשפ״ד","moed":"מועד א׳","date":"17.09.2024","order":"2024-09-17","year":2024},{"id":"w25a","sem":"חורף תשפ״ה","moed":"מועד א׳","date":"19.02.2025","order":"2025-02-19","year":2025},{"id":"w25b","sem":"חורף תשפ״ה","moed":"מועד ב׳","date":"18.03.2025","order":"2025-03-18","year":2025},{"id":"s25a","sem":"אביב תשפ״ה","moed":"מועד א׳","date":"08.08.2025","order":"2025-08-08","year":2025},{"id":"s25b","sem":"אביב תשפ״ה","moed":"מועד ב׳","date":"02.09.2025","order":"2025-09-02","year":2025},{"id":"w26a","sem":"חורף תשפ״ו","moed":"מועד א׳","date":"12.02.2026","order":"2026-02-12","year":2026}];
+const Q = [{"exam":"w21a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":496,"desc":"השמות blocking מול non-blocking: עבור איזה a המוצא b נבדל בין שני הרכיבים","also":[]},{"exam":"w21a","n":2,"topic":"num","pts":5,"kind":"mc","level":2,"page":498,"desc":"חיבור שני מספרים בייצוג נקודה צפה, נתונים בהקסדצימלי","also":[]},{"exam":"w21a","n":3,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":499,"desc":"תכנון Mealy: המספר שנקלט זוגי וגם xᵢ = xᵢ₋₂ — מספר המצבים במכונה המצומצמת","also":[]},{"exam":"w21a","n":4,"topic":"comb","pts":5,"kind":"mc","level":3,"page":500,"desc":"מימוש f בעזרת בורר 2→1 / 4→1 / 8→1 יחיד, XOR וקבועים — אילו טענות נכונות","also":["bool"]},{"exam":"w21a","n":5,"topic":"timing","pts":5,"kind":"mc","level":4,"page":502,"desc":"שער OR בנתיב השעון כ־skew: מהם טווחי tpcq ו־tccq של FF1","also":[]},{"exam":"w21a","n":6,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":504,"desc":"צינור מערכת בעדיפות תפוקה ואז מספר רגיסטרים מינימלי — כמה רגיסטרים","also":[]},{"exam":"w21a","n":7,"topic":"mc","pts":5,"kind":"mc","level":3,"page":506,"desc":"פקודת AddMem על datapath שכבר שונה: מספר המחזורים המינימלי","also":[]},{"exam":"w21a","n":8,"topic":"fsm","pts":10,"kind":"mc","level":3,"page":508,"desc":"צמצום טבלת מעברים בת 8 מצבים — כמה מחלקות שקילות מתקבלות","also":[]},{"exam":"w21a","n":9,"topic":"mc","pts":5,"kind":"mc","level":4,"page":510,"desc":"תמיכה בחריגת גישה לכתובת לא חוקית — כמה Dispatch ROM חדשים נדרשים","also":["exc"]},{"exam":"w21a","n":10,"topic":"mc","pts":5,"kind":"mc","level":3,"page":511,"desc":"פקודת swi ‏(Mem[rd] = rs1·imm): אילו שינויים ב־datapath ובמכונת המצבים","also":[]},{"exam":"w21a","n":11,"topic":"asm","pts":21,"kind":"open","level":4,"page":512,"desc":"השלמת קוד אסמבלי לחישוב סכומים מצטברים, ואז ספירת מחזורי שעון בצינור עם forwarding מלא","also":["pp"]},{"exam":"w21a","n":12,"topic":"bool","pts":8,"kind":"open","level":2,"page":515,"desc":"מפת קרנו לספרה זוגית בבסיס 11 עם don’t care, ביטוי מינימלי, והאם nand/nor/xor מקצרים אותו","also":[]},{"exam":"w21a","n":13,"topic":"serial","pts":10,"kind":"open","level":5,"page":518,"desc":"UART עם X סיביות מידע: היסט הדגימה של D₀ ו־D₁, וחסם הדוק על מספר הסיביות","also":[]},{"exam":"w21a","n":14,"topic":"sc","pts":10,"kind":"open","level":2,"page":520,"desc":"השוואת זמן ריצה של אותה תוכנית ב־Single Cycle מול Multi-Cycle","also":["mc"]},{"exam":"w21a","n":15,"topic":"pp","pts":10,"kind":"open","level":4,"page":522,"desc":"משוואת הקפיצה מוזזת לשלב DEC: ספירת מקרי forwarding מכל סוג וזמן הריצה","also":[]},{"exam":"w21b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":551,"desc":"שני מופעים משורשרים של FF עם nand — אילו תדרים יוצאים ב־o1, o2, o3","also":[]},{"exam":"w21b","n":2,"topic":"num","pts":5,"kind":"mc","level":3,"page":553,"desc":"משוואה בין מספרים בבסיסים α ו־β — אילו ערכים אפשריים","also":[]},{"exam":"w21b","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":554,"desc":"h = nor(f,g) + xz כאשר f מוציאה 1 לשני קלטים או יותר — צמצום כסכום מכפלות","also":[]},{"exam":"w21b","n":4,"topic":"bool","pts":5,"kind":"mc","level":4,"page":556,"desc":"משווה 2 סיביות במשלים ל־2: האם f היא מערכת פעולות שלמה, ובאילו קבועים","also":["num"]},{"exam":"w21b","n":5,"topic":"asm","pts":5,"kind":"mc","level":3,"page":558,"desc":"עצרת רקורסיבית ב־RISC-V: האם הפונקציה עומדת בקונבנציית הקריאה ומה יוצא ב־a0","also":[]},{"exam":"w21b","n":6,"topic":"fsm","pts":5,"kind":"mc","level":5,"page":560,"desc":"מהחלוקה P₂ בת 5 מחלקות — מה ניתן להסיק על רוחב הכניסה ועל Mealy מול Moore","also":[]},{"exam":"w21b","n":7,"topic":"timing","pts":5,"kind":"mc","level":4,"page":561,"desc":"השעון ל־FF2 מגיע באיחור 3ns: מה החסם ההדוק ביותר על זמן שינוי הקלט t_IN","also":[]},{"exam":"w21b","n":8,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":565,"desc":"צינור בעדיפות תפוקה, אחריה השהיה ואז מספר רגיסטרים — מה ה־latency וכמה רגיסטרים","also":[]},{"exam":"w21b","n":9,"topic":"sc","pts":5,"kind":"mc","level":2,"page":567,"desc":"חישוב זמן מחזור Single Cycle מזמני הרכיבים, וזמן ריצת לולאה","also":[]},{"exam":"w21b","n":10,"topic":"mc","pts":5,"kind":"mc","level":4,"page":569,"desc":"פקודת Vacc שקובעת שני תורים בהפרש 21 שורות — אילו רכיבים ומצבים להוסיף","also":[]},{"exam":"w21b","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":572,"desc":"שני מעבדי צינור שנבדלים בזמן מחזור ובשלב הכרעת הקפיצה — לאיזה טווח X עדיף A","also":[]},{"exam":"w21b","n":12,"topic":"comb","pts":8,"kind":"open","level":3,"page":573,"desc":"f = g·h ‏— האם ניתן לממש בבורר 4→1 יחיד ושער XOR אחד, ואם כן לצייר","also":["bool"]},{"exam":"w21b","n":13,"topic":"serial","pts":12,"kind":"open","level":5,"page":575,"desc":"פרוטוקולים B ו־C עם סיבית זוגיות: יחס סיביות מידע, מרחק קוד, ומתי C עדיף","also":["num"]},{"exam":"w21b","n":14,"topic":"mc","pts":10,"kind":"open","level":4,"page":578,"desc":"AddMem: מילוי טבלת ערכי הבקרה של הבוררים A, ALU2 ו־Addr לפי מחזורים","also":[]},{"exam":"w21b","n":15,"topic":"exc","pts":10,"kind":"open","level":3,"page":580,"desc":"SCAUSE ו־SEPC: זיהוי שיטת קידוד קוד הפסיקה, יתרון וחיסרון, ואילו חריגות מתרחשות בקוד","also":[]},{"exam":"w21b","n":16,"topic":"pp","pts":10,"kind":"open","level":4,"page":583,"desc":"הוספת NOP ידנית כשה־forwarding חלקי, ואז זמן ריצה עם forwarding מלא","also":[]},{"exam":"s21a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":607,"desc":"מכונת מצבים ב־SystemVerilog — איזו דיאגרמת גלים מתאימה למוצא vec","also":[]},{"exam":"s21a","n":2,"topic":"bool","pts":5,"kind":"mc","level":3,"page":609,"desc":"ספירת פונקציות עם n משתנים טרינאריים ומוצא אוקטלי, שאינן קבועות","also":[]},{"exam":"s21a","n":3,"topic":"comb","pts":5,"kind":"mc","level":2,"page":611,"desc":"מימוש xz′ + yz′ בשערי NOR בעלי שתי כניסות בלבד — המספר המינימלי","also":[]},{"exam":"s21a","n":4,"topic":"comb","pts":5,"kind":"mc","level":3,"page":612,"desc":"מימוש הפונקציה במפענח 8-3 / 16-4 / 32-5 בעזרת רגל Enable — אילו טענות נכונות","also":[]},{"exam":"s21a","n":5,"topic":"timing","pts":5,"kind":"mc","level":4,"page":614,"desc":"שער NOT בכניסת השעון של FF אחד — מהו זמן ה־setup המקסימלי X","also":[]},{"exam":"s21a","n":6,"topic":"fsm","pts":5,"kind":"mc","level":2,"page":616,"desc":"מעקב אחרי דיאגרמת Mealy על סדרת קלט בת 16 מחזורים — מה סדרת הפלט","also":[]},{"exam":"s21a","n":7,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":618,"desc":"זיהוי התחלקות ב־16 כשהסיבית הנקלטת היא LSB מול MSB — השוואת מספר המצבים","also":[]},{"exam":"s21a","n":8,"topic":"sc","pts":5,"kind":"mc","level":4,"page":620,"desc":"פקודת BeqMemReg ב־Single Cycle — התשובה המחמירה ביותר לשינויים ב־datapath","also":[]},{"exam":"s21a","n":9,"topic":"mc","pts":5,"kind":"mc","level":3,"page":622,"desc":"פקודת RMW ‏(קריאה מהזיכרון וכתיבה לאותה כתובת) — מספר המחזורים המינימלי","also":[]},{"exam":"s21a","n":10,"topic":"pp","pts":5,"kind":"mc","level":4,"page":623,"desc":"מעבד ללא Load Hazard Detection ובלי flush — כמה nop צריך להוסיף","also":[]},{"exam":"s21a","n":11,"topic":"bool","pts":10,"kind":"open","level":3,"page":626,"desc":"מפת קרנו למספר דו־ספרתי בבסיס 4: מתחלק ב־3 או מכיל את הספרה 3","also":[]},{"exam":"s21a","n":12,"topic":"pipec","pts":10,"kind":"open","level":4,"page":628,"desc":"צינור עם רגיסטרים אידאליים מול רגיסטרים בעלי השהיה — תפוקה מקסימלית וכמה אידאליים","also":[]},{"exam":"s21a","n":13,"topic":"serial","pts":10,"kind":"open","level":4,"page":630,"desc":"שעוני משדר ומקלט 4.8ns מול 5ns ו־N = 50 — מהו מספר סיביות המידע המקסימלי","also":[]},{"exam":"s21a","n":14,"topic":"sc","pts":10,"kind":"open","level":5,"page":632,"desc":"לאיזה תחום של יחסי זמני המחזור ה־Multi-Cycle מהיר מ־Single Cycle ומ־Pipeline","also":["mc","pp"]},{"exam":"s21a","n":15,"topic":"pp","pts":10,"kind":"open","level":3,"page":635,"desc":"מעבד ללא forwarding: טבלת NOP מינימלית, ואיך היא משתנה עם MEM→EXE","also":[]},{"exam":"s21b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":662,"desc":"קוד FSM ב־SystemVerilog: Mealy או Moore, ומה הערך הסופי של z","also":["fsm"]},{"exam":"s21b","n":2,"topic":"num","pts":5,"kind":"mc","level":2,"page":664,"desc":"המרה מנקודה צפה לעשרוני ומשם לקוד גריי בן 5 סיביות","also":[]},{"exam":"s21b","n":3,"topic":"arith","pts":5,"kind":"mc","level":3,"page":666,"desc":"מחסר סיבית בעזרת FA, XOR, NOT וקבועים — המספר המינימלי של רכיבים","also":[]},{"exam":"s21b","n":4,"topic":"timing","pts":5,"kind":"mc","level":4,"page":668,"desc":"האם קיים delay בשעון FF2 שמאפשר פעולה תקינה — ובאיזה מחזור מינימלי","also":[]},{"exam":"s21b","n":5,"topic":"fsm","pts":5,"kind":"mc","level":3,"page":670,"desc":"Mealy שמוציאה 1 כשאינדקס המחזור אי־זוגי וגם מספר האחדים אי־זוגי — מספר מצבים","also":[]},{"exam":"s21b","n":6,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":672,"desc":"צינור מעגל שמכיל רכיבי U מצונרים שאין לשנותם — מספר הרגיסטרים הכולל","also":[]},{"exam":"s21b","n":7,"topic":"serial","pts":5,"kind":"mc","level":3,"page":674,"desc":"משדר 60ns עם N_T=4 ומקלט 125ns עם N_R=2 — מהו X המקסימלי","also":[]},{"exam":"s21b","n":8,"topic":"sc","pts":5,"kind":"mc","level":4,"page":675,"desc":"SHA3 מול SHA3mem ב־Single Cycle — איזו פקודה דורשת פחות שינויים","also":[]},{"exam":"s21b","n":9,"topic":"mc","pts":5,"kind":"mc","level":3,"page":677,"desc":"פקודת UpdMem שכופלת שני ערכים מהזיכרון — מספר המחזורים המינימלי","also":[]},{"exam":"s21b","n":10,"topic":"mc","pts":5,"kind":"mc","level":2,"page":679,"desc":"אותה UpdMem כפסאודו־פקודה ללא שינויי מעבד — כמה מחזורים","also":["asm"]},{"exam":"s21b","n":11,"topic":"mc","pts":5,"kind":"mc","level":5,"page":680,"desc":"פקודת lwr עם שני רגיסטרים ככתובת, בלי dispatch ROM חדש — כמה מצבים ואותות בקרה","also":[]},{"exam":"s21b","n":12,"topic":"pp","pts":5,"kind":"mc","level":3,"page":681,"desc":"יחידת branch prediction שמנחשת ב־Decode — איזו טענה נכונה לגביה","also":[]},{"exam":"s21b","n":13,"topic":"num","pts":10,"kind":"open","level":3,"page":684,"desc":"מרחק הקוד של מספרי טלפון ב־BCD בשלושה תרחישים של הגבלת הספרות","also":[]},{"exam":"s21b","n":14,"topic":"bool","pts":10,"kind":"open","level":3,"page":686,"desc":"סימון הגוררים למימוש מינימלי, והאם ייתכן הבהוב סטטי — ואיזה גורר מונע אותו","also":[]},{"exam":"s21b","n":15,"topic":"asm","pts":10,"kind":"open","level":4,"page":688,"desc":"beq שיעדו רחוק מדי כשאין פקודות J — אילו פקודות להוסיף ואיפה","also":[]},{"exam":"s21b","n":16,"topic":"pp","pts":10,"kind":"open","level":4,"page":692,"desc":"הוספת NOP מינימלית ללא forwarding, ואז חיסכון על ידי הזזת פקודה אחת","also":[]},{"also":[],"exam":"w22a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":722,"desc":"לולאת generate שמשרשרת שלושה מופעים של unit עם SHIFT_NUM שונה — מה יוצא ב־my_out"},{"also":[],"exam":"w22a","n":2,"topic":"num","pts":5,"kind":"mc","level":3,"page":724,"desc":"קוד שצריך לייצג גם משלים ל־2 בטווח נתון וגם unsigned בטווח [322,833] — מספר הסיביות המינימלי"},{"also":["comb"],"exam":"w22a","n":3,"topic":"num","pts":5,"kind":"mc","level":4,"page":725,"desc":"תרגום ספרה עשרונית מייצוג משוקלל (6,4,2,-3) — תכנון המערכת המתרגמת"},{"also":[],"exam":"w22a","n":4,"topic":"comb","pts":5,"kind":"mc","level":3,"page":728,"desc":"מימוש Σ(19,21,22,27,29,30) במפענחים עם Enable ושער OR בן 32 כניסות"},{"also":[],"exam":"w22a","n":5,"topic":"timing","pts":5,"kind":"mc","level":4,"page":730,"desc":"מהפך בנתיב השעון של FF2 ו־duty cycle של 0.5 — משטר הזמנים של המעגל"},{"also":[],"exam":"w22a","n":6,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":732,"desc":"כמה רגיסטרים אידיאליים דרושים לצינור בעדיפות תפוקה ואז השהיה מינימלית"},{"also":[],"exam":"w22a","n":7,"topic":"serial","pts":5,"kind":"mc","level":4,"page":734,"desc":"שינוי UART: 4 סיביות למספר הבתים, ושכפול כל בית לשיפור גילוי שגיאות"},{"also":[],"exam":"w22a","n":8,"topic":"fsm","pts":5,"kind":"mc","level":3,"page":736,"desc":"Mealy שמזהה סוף של כל רצף אחדים באורך זוגי — כמה מצבים נדרשים"},{"also":[],"exam":"w22a","n":9,"topic":"asm","pts":5,"kind":"mc","level":2,"page":737,"desc":"מעקב אחרי addi / slli / add / srli — מה ערכו הסופי של t0"},{"also":[],"exam":"w22a","n":10,"topic":"asm","pts":5,"kind":"mc","level":3,"page":738,"desc":"לולאה שסוכמת איברי מערך בדילוגים של 8 בתים — מה הערך הסופי של s1"},{"also":[],"exam":"w22a","n":11,"topic":"sc","pts":5,"kind":"mc","level":4,"page":740,"desc":"איזו מהפקודות המוצעות ניתן לממש כפקודה אמיתית ב־Single Cycle בלי לשנות RegFile/ALU/ImmGen"},{"also":["mc","pp"],"exam":"w22a","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":741,"desc":"פילוח פקודות (35% R, 30% beq, 20% lw, 15% sw) וזמני מחזור — איזו ארכיטקטורה מהירה"},{"also":[],"exam":"w22a","n":13,"topic":"mc","pts":5,"kind":"mc","level":4,"page":744,"desc":"פקודת newCMD בפורמט U/J: מכונת מצבים מעודכנת בלי שינוי ב־Datapath"},{"also":["serial"],"exam":"w22a","n":14,"topic":"pp","pts":5,"kind":"mc","level":5,"page":747,"desc":"משדר UART על Pipeline RISC-V עם forwarding מלא, hazard detection ו־branch prediction"},{"also":[],"exam":"w22a","n":15,"topic":"asm","pts":10,"kind":"open","level":4,"page":751,"desc":"ניתוח קוד אסמבלי עם כתובות — כמה פעמים מתבצעת הפקודה בכתובת 0x1010"},{"also":[],"exam":"w22a","n":16,"topic":"fsm","pts":10,"kind":"open","level":5,"page":753,"desc":"סדרות הפרדה באורכים שונים בין שני מצבים — מה ניתן להסיק על מספר המצבים N"},{"also":[],"exam":"w22a","n":17,"topic":"exc","pts":10,"kind":"open","level":4,"page":755,"desc":"טיפול בחלוקה באפס ובפקודה לא חוקית ב־Multicycle: קידוד, שגרת טיפול והחזרה"},{"also":[],"exam":"w22b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":781,"desc":"מודול עם מונה ctr והשוואה ל־compare — מה התנהגות המוצא out"},{"also":[],"exam":"w22b","n":2,"topic":"num","pts":5,"kind":"mc","level":3,"page":783,"desc":"משוואה ריבועית שספרותיה בבסיס b לא ידוע — מהו הבסיס"},{"also":[],"exam":"w22b","n":3,"topic":"comb","pts":5,"kind":"mc","level":3,"page":784,"desc":"מעגל הבנוי מבורר 4→1 — מהי הפונקציה f(w,x,y,z) שהוא מממש"},{"also":[],"exam":"w22b","n":4,"topic":"asm","pts":5,"kind":"mc","level":3,"page":785,"desc":"טענות על שמירת s0 ו־t0 בקונבנציית הקריאה לפונקציה"},{"also":[],"exam":"w22b","n":5,"topic":"asm","pts":5,"kind":"mc","level":4,"page":787,"desc":"func_A ו־func_B הקוראות זו לזו — כמה מסגרות מחסנית ייפתחו"},{"also":[],"exam":"w22b","n":6,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":788,"desc":"שרשרת אקראית של רכיבי A (3ns) ו־B (5ns) — צינור לתפוקה מקסימלית"},{"also":[],"exam":"w22b","n":7,"topic":"fsm","pts":5,"kind":"mc","level":5,"page":789,"desc":"מכונת Moore ש\"מנקה\" הבהובים סטטיים מאות שעון והופכת מחזור ל־N סיביות"},{"also":[],"exam":"w22b","n":8,"topic":"serial","pts":5,"kind":"mc","level":4,"page":791,"desc":"UART עם N סיביות מידע ועוד N/4 סיביות ECC — השפעה על הקצב ועל גילוי שגיאות"},{"also":[],"exam":"w22b","n":9,"topic":"sc","pts":5,"kind":"mc","level":4,"page":792,"desc":"פקודת mva שמעבירה ערך בין שתי כתובות זיכרון — מימוש ב־Single Cycle"},{"also":[],"exam":"w22b","n":10,"topic":"mc","pts":5,"kind":"mc","level":3,"page":794,"desc":"פקודת sw_mul ‏(Mem[rd] = Mem[rs1]·imm) — מימוש ב־Multi-Cycle"},{"also":[],"exam":"w22b","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":796,"desc":"אותה sw_mul על Balanced Pipeline — אילו שינויים ב־Datapath נדרשים"},{"also":[],"exam":"w22b","n":12,"topic":"pp","pts":5,"kind":"mc","level":4,"page":797,"desc":"שני מעבדי צינור בתדר 3F, עם ובלי forwarding ו־hazard detection — השוואת ביצועים"},{"also":[],"exam":"w22b","n":13,"topic":"mc","pts":5,"kind":"mc","level":4,"page":798,"desc":"תקלה שבה הרגיסטרים PC ו־IR שקופים (הכניסה עוברת ישר למוצא) — מה עדיין תקין"},{"also":[],"exam":"w22b","n":14,"topic":"pp","pts":5,"kind":"mc","level":4,"page":799,"desc":"פיצול שלבי Fetch ו־Memory לשני שלבים כל אחד — ההשפעה על הצינור"},{"also":[],"exam":"w22b","n":15,"topic":"num","pts":10,"kind":"open","level":3,"page":802,"desc":"קוד גריי שבו כל מילה באורך n סיביות — תכונות הקוד"},{"also":[],"exam":"w22b","n":16,"topic":"bool","pts":10,"kind":"open","level":3,"page":804,"desc":"מפת קרנו של h = x⊕y⊕w, ואז ציור x·h עם שער אחד בלבד מכל סוג"},{"also":[],"exam":"w22b","n":17,"topic":"pipec","pts":10,"kind":"open","level":4,"page":807,"desc":"צינור אופטימלי מבחינת latency עם רגיסטרים אידאליים — מה ה־latency המינימלי"},{"also":[],"exam":"s22a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":831,"desc":"שלושה קטעי קוד שמנסים לממש את אותו שער עם FF ו־rst — איזה מהם נכון"},{"also":[],"exam":"s22a","n":2,"topic":"bool","pts":5,"kind":"mc","level":3,"page":834,"desc":"ארבע פונקציות בנות 4 קלטים עם don’t care — אילו מהן שקולות זו לזו"},{"also":[],"exam":"s22a","n":3,"topic":"comb","pts":5,"kind":"mc","level":4,"page":836,"desc":"מימוש f בכמות מינימלית של בוררים 2→1 כשיש שער NOT יחיד בלבד"},{"also":[],"exam":"s22a","n":4,"topic":"timing","pts":5,"kind":"mc","level":3,"page":838,"desc":"מעגל עם FF ושערי NOT/OR/XOR — מהו זמן ה־hold המירבי של FFa"},{"also":["num"],"exam":"s22a","n":5,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":840,"desc":"Mealy שממירה מספר בינארי לקוד גריי, סיבית אחת בכל מחזור מה־MSB"},{"also":[],"exam":"s22a","n":6,"topic":"asm","pts":5,"kind":"mc","level":3,"page":842,"desc":"הרצת קוד עם beq/lw/slli/and על Single Cycle — מה קורה בפועל"},{"also":[],"exam":"s22a","n":7,"topic":"asm","pts":5,"kind":"mc","level":4,"page":844,"desc":"prologue ו־epilogue של פונקציה — האם הקוד עומד בקונבנציית הקריאה"},{"also":[],"exam":"s22a","n":8,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":846,"desc":"מספר הרגיסטרים המינימלי לצינור המערכת לתפוקה מקסימלית"},{"also":[],"exam":"s22a","n":9,"topic":"serial","pts":5,"kind":"mc","level":4,"page":848,"desc":"UART עם X סיביות מידע וזמן מחזור משדר 100ns — מה זמן המחזור של המקלט"},{"also":[],"exam":"s22a","n":10,"topic":"mc","pts":5,"kind":"mc","level":3,"page":850,"desc":"פקודת Mem2 שמחברת מילה בכתובת rs1 עם המילה העוקבת ושומרת ב־rd"},{"also":["exc"],"exam":"s22a","n":11,"topic":"mc","pts":5,"kind":"mc","level":5,"page":852,"desc":"טבלת dispatch ותמיכה בחריגות פקודה לא חוקית וגלישה — כמה מצבים ושורות"},{"also":[],"exam":"s22a","n":12,"topic":"asm","pts":5,"kind":"mc","level":3,"page":854,"desc":"קוד שסופר את הסיביות הדולקות בשבעת הביטים הנמוכים של a0"},{"also":[],"exam":"s22a","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":856,"desc":"branch prediction שחוזה ומחשב יעד ב־IF ונבדק ב־EXE — מספר המחזורים לאותו קוד"},{"also":[],"exam":"s22a","n":14,"topic":"timing","pts":5,"kind":"mc","level":4,"page":857,"desc":"הוספת delay בכניסת השעון של FF2 — זמן המחזור המינימלי האפשרי"},{"also":["sc"],"exam":"s22a","n":15,"topic":"mc","pts":10,"kind":"open","level":4,"page":860,"desc":"פקודת Ls שמעבירה מילה מ־Mem[rs1] אל Mem[rs2+offset] — מימוש ומחזורים"},{"also":[],"exam":"s22a","n":16,"topic":"fsm","pts":10,"kind":"open","level":5,"page":862,"desc":"מכונת Mealy בת 10 מצבים שאינה בהכרח מצומצמת — אילו טענות בהכרח נכונות"},{"also":[],"exam":"s22a","n":17,"topic":"bool","pts":10,"kind":"open","level":3,"page":864,"desc":"ליטרלים ומכפלות: אילו פונקציות בשני משתנים ניתנות לרישום כמכפלה אחת"},{"also":[],"exam":"s22b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":887,"desc":"always_ff עם לולאת for על מונה q — מה הערך של out"},{"also":[],"exam":"s22b","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":889,"desc":"קוד בן 6 סיביות עם גילוי שגיאות — השוואה בין שלוש שיטות שנלמדו"},{"also":[],"exam":"s22b","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":891,"desc":"מספור פונקציות לפי טבלת האמת (f0…f15) — זיהוי הפונקציה g"},{"also":[],"exam":"s22b","n":4,"topic":"comb","pts":5,"kind":"mc","level":4,"page":893,"desc":"מימוש f בבוררים 4→1 מול בוררים 2→1 — למי השהיה מינימלית"},{"also":[],"exam":"s22b","n":5,"topic":"pp","pts":5,"kind":"mc","level":4,"page":895,"desc":"שני מעבדי צינור בתדר 3F, עם ובלי forwarding — מי מסיים ראשון"},{"also":[],"exam":"s22b","n":6,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":897,"desc":"מכונת מילי שמזהה רצף מוטציה במחרוזת DNA מעל A, C, T, G"},{"also":["mc"],"exam":"s22b","n":7,"topic":"exc","pts":5,"kind":"mc","level":4,"page":899,"desc":"תמיכה בשלוש חריגות בלבד: פקודה לא חוקית, כתובת מוגנת וחלוקה באפס"},{"also":[],"exam":"s22b","n":8,"topic":"pp","pts":5,"kind":"mc","level":3,"page":901,"desc":"Pipeline עם forwarding מלא ויחידת Load Hazard Detection — ניתוח הרצה"},{"also":[],"exam":"s22b","n":9,"topic":"sc","pts":5,"kind":"mc","level":4,"page":903,"desc":"ה־LSB ביציאת ה־ALU התקצר לאפס — אילו פקודות עלולות לרוץ לא נכון"},{"also":[],"exam":"s22b","n":10,"topic":"mc","pts":5,"kind":"mc","level":3,"page":905,"desc":"פקודת newcmd שמקדמת את rs1 ב־4 וגם קופצת ל־label — שינויי בקר בלבד"},{"also":[],"exam":"s22b","n":11,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":907,"desc":"רכיב 3Addr מ־FA שאינם מצונרים — מספר הרגיסטרים המינימלי לצינור"},{"also":[],"exam":"s22b","n":12,"topic":"pp","pts":5,"kind":"mc","level":4,"page":909,"desc":"Pipeline עם forwarding מ־WB ל־EXE בלבד וללא HDU — ניתוח תוכנית נתונה"},{"also":[],"exam":"s22b","n":13,"topic":"pipec","pts":5,"kind":"mc","level":5,"page":911,"desc":"שרשור M עותקים של מערכת C שצונרה — מה התפוקה וההשהיה"},{"also":[],"exam":"s22b","n":14,"topic":"mc","pts":5,"kind":"mc","level":4,"page":913,"desc":"פקודת JumpOverfit שמשווה רגיסטר לערך בזיכרון וקופצת לפי התוצאה"},{"also":[],"exam":"s22b","n":15,"topic":"asm","pts":10,"kind":"open","level":4,"page":916,"desc":"מערך a[5]={2,4,6,8,10} בכתובת 0x14 — מעקב אחרי התוכנית מ־main"},{"also":[],"exam":"s22b","n":16,"topic":"scan","pts":10,"kind":"open","level":4,"page":919,"desc":"אימות מעגל צירופי מול תקלות stuck-at-0 ו־stuck-at-1 בחוטים m ו־n"},{"also":[],"exam":"s22b","n":17,"topic":"serial","pts":10,"kind":"open","level":4,"page":921,"desc":"משדר 8.333MHz ומקלט 4.5454MHz — מהו מספר סיביות המידע המקסימלי"},{"also":[],"exam":"w23a","n":1,"topic":"bool","pts":5,"kind":"mc","level":2,"page":944,"desc":"צמצום מכפלת סכומים לצורה המצומצמת ביותר של סכום מכפלות"},{"also":[],"exam":"w23a","n":2,"topic":"fsm","pts":5,"kind":"mc","level":3,"page":945,"desc":"Mealy שמוציאה 1 כשבשלוש הסיביות האחרונות היה מספר אי־זוגי של אחדים"},{"also":[],"exam":"w23a","n":3,"topic":"mc","pts":5,"kind":"mc","level":3,"page":947,"desc":"פקודת push שמגדילה את המחסנית ושומרת בה את rs2 — מימוש ב־Multi-Cycle"},{"also":["num"],"exam":"w23a","n":4,"topic":"mc","pts":5,"kind":"mc","level":4,"page":949,"desc":"פקודת AddFloat שמחברת את הרגיסטרים כמספרי נקודה צפה"},{"also":[],"exam":"w23a","n":5,"topic":"asm","pts":5,"kind":"mc","level":3,"page":951,"desc":"לולאה שקוראת ל־func ומסכמת את ההחזרות — מה הערך המוחזר ב־a0"},{"also":[],"exam":"w23a","n":6,"topic":"timing","pts":5,"kind":"mc","level":4,"page":954,"desc":"מעגל עם NOT ו־OR בין שני FF — בדיקת setup ו־hold מול זמן המחזור"},{"also":[],"exam":"w23a","n":7,"topic":"sv","pts":5,"kind":"mc","level":3,"page":956,"desc":"מודול עם שתי יציאות out1, out2 והשמות מ־start — מה הערכים בכל מחזור"},{"also":["bool"],"exam":"w23a","n":8,"topic":"arith","pts":5,"kind":"mc","level":4,"page":958,"desc":"מימוש f = Σ(0,2,5,7,8,10,13,15) ברכיבי FA וקבועים בלבד — מספר FA מינימלי"},{"also":[],"exam":"w23a","n":9,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":960,"desc":"צינור עם רגיסטרים אידיאליים לתפוקה מקסימלית — מספר הרגיסטרים המינימלי"},{"also":[],"exam":"w23a","n":10,"topic":"bool","pts":5,"kind":"mc","level":4,"page":962,"desc":"הבהוב (hazard) במעגל כש־z=1 — אילו גוררים או שינויי השהיה מבטלים אותו"},{"also":[],"exam":"w23a","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":965,"desc":"צינור שמניח שקפיצה לא נלקחת (הכרעה ב־EXE) מול צינור שמניח שנלקחת (הכרעה ב־MEM)"},{"also":[],"exam":"w23a","n":12,"topic":"serial","pts":5,"kind":"mc","level":4,"page":967,"desc":"תקלה שבה המשדר משדר כל ביט בתדר שונה מהמתוכנן — האם המקלט עוד יקלוט נכון"},{"also":[],"exam":"w23a","n":13,"topic":"bool","pts":5,"kind":"mc","level":3,"page":969,"desc":"האם f = Σ(1,2,3,6,7) היא מערכת פעולות שלמה, חצי שלמה, או לא"},{"also":[],"exam":"w23a","n":14,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":971,"desc":"מכונה שמוציאה 1 כשמספר הרצפים ‏\"11\" מתחלק ב־3 — כמה FF נדרשים"},{"also":["asm"],"exam":"w23a","n":15,"topic":"pp","pts":10,"kind":"open","level":4,"page":974,"desc":"שלושה סעיפים על לולאה שמכפילה איברי מערך — ניתוח הרצה בצינור"},{"also":[],"exam":"w23a","n":16,"topic":"comb","pts":10,"kind":"open","level":4,"page":978,"desc":"מימוש f בבוררים 4→1, אחר כך עם שערי not, ואחר כך במפענחים 2→4"},{"also":[],"exam":"w23a","n":17,"topic":"sc","pts":10,"kind":"open","level":4,"page":980,"desc":"פקודת copym שמעתיקה מילה בין שתי כתובות זיכרון — מימוש ב־Single Cycle"},{"also":[],"exam":"w23b","n":1,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1006,"desc":"\"חלון אפסים\" במערכת צירופית לפי זמני tpd ו־tcd של השערים"},{"also":[],"exam":"w23b","n":2,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1008,"desc":"קורא בר־קודים: פונקציה f(w,x,y,z) לזיהוי מוצרי מאכל — מפת קרנו וצמצום"},{"also":[],"exam":"w23b","n":3,"topic":"comb","pts":5,"kind":"mc","level":3,"page":1011,"desc":"הפונקציה f ממומשת בבורר 4→1 — מהי f, בייצוג Σ או Π"},{"also":[],"exam":"w23b","n":4,"topic":"mc","pts":5,"kind":"mc","level":3,"page":1013,"desc":"פקודת lwd שקוראת שתי מילים עוקבות לשני רגיסטרים — מימוש ב־Multi-Cycle"},{"also":[],"exam":"w23b","n":5,"topic":"sc","pts":5,"kind":"mc","level":2,"page":1015,"desc":"זמני השהיה של רכיבי Single Cycle — חישוב זמן המחזור וזמן הריצה"},{"also":[],"exam":"w23b","n":6,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1017,"desc":"UART לשליחת מילים בנות 32 סיביות בקצב 1500 מילים בשנייה — קצב השעון הנדרש"},{"also":[],"exam":"w23b","n":7,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1019,"desc":"האם f ו־g הן מערכות פעולות שלמות, חצי שלמות, או שהסט {f,g} שלם"},{"also":[],"exam":"w23b","n":8,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1021,"desc":"שינוי Single Cycle כך שכתובת lw/sw תחושב מה־immediate בלבד ללא רגיסטר"},{"also":[],"exam":"w23b","n":9,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1024,"desc":"מודול עם always_ff ו־always_comb על a[3:0] ו־b[1:0] — מה יוצא ב־out"},{"also":[],"exam":"w23b","n":10,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1026,"desc":"זמני NOT/AND/FF נתונים — האם המערכת עומדת במשטר הזמנים ובאיזה מחזור"},{"also":[],"exam":"w23b","n":11,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1028,"desc":"טענות על מערכת שצונרה לתפוקה מקסימלית — איזו טענה אינה נכונה"},{"also":["mc","pp"],"exam":"w23b","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1030,"desc":"פילוח פקודות (40% R, 15% beq, 25% lw, 20% sw) — השוואת שלוש הארכיטקטורות"},{"also":[],"exam":"w23b","n":13,"topic":"num","pts":5,"kind":"mc","level":3,"page":1032,"desc":"חיבור שני מספרי נקודה צפה בפורמט מקוצר: 1 סימן, 3 מערך חזקה, 4 מנטיסה"},{"also":[],"exam":"w23b","n":14,"topic":"fsm","pts":5,"kind":"mc","level":3,"page":1033,"desc":"Mealy שמוציאה Z=1 אמ״מ Xᵢ = Xᵢ₋₂ — מספר המצבים המינימלי"},{"also":["asm"],"exam":"w23b","n":15,"topic":"pp","pts":10,"kind":"open","level":4,"page":1036,"desc":"קטע קוד עם slli/or/lw/beq/sw — ניתוח הרצה על צינור עם forwarding"},{"also":[],"exam":"w23b","n":16,"topic":"fsm","pts":10,"kind":"open","level":4,"page":1040,"desc":"Mealy שמזהה סוף רצף אחדים באורך גדול מ־3 — תכנון המכונה"},{"also":[],"exam":"w23b","n":17,"topic":"asm","pts":10,"kind":"open","level":4,"page":1042,"desc":"פונקציה שמחשבת פולינום: מהם המקדמים pᵢ והאם היא עומדת בכללי הקריאה"},{"also":[],"exam":"s23a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1045,"desc":"מכפל 2×2 שנכתב עם part1/part2 — האם הקוד מממש אותו נכון"},{"also":[],"exam":"s23a","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1046,"desc":"שוויון בין מספרים בבסיסים b², b²−b+4 — אילו ערכי x, y, z אפשריים"},{"also":[],"exam":"s23a","n":3,"topic":"timing","pts":5,"kind":"mc","level":3,"page":1047,"desc":"חישוב Tpd(A→Q) במעגל צירופי עם זמני tpd,LH ו־tpd,HL נפרדים"},{"also":[],"exam":"s23a","n":4,"topic":"asm","pts":5,"kind":"mc","level":4,"page":1049,"desc":"הנדסה לאחור של secret_func מקוד אסמבלי — מה היא מחשבת"},{"also":[],"exam":"s23a","n":5,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1051,"desc":"קריאת מעגל צירופי בן 4 כניסות — מהו הביטוי של F"},{"also":[],"exam":"s23a","n":6,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1053,"desc":"Mealy עם קלט דו־סיביתי שמייצג 0/1/2 (הקלט 11 אינו חוקי)"},{"also":[],"exam":"s23a","n":7,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1054,"desc":"שני מעבדי צינור שנבדלים בזמני שלבים וב־Hazard Detection — מי מהיר"},{"also":["scan"],"exam":"s23a","n":8,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1056,"desc":"מדידת TpdHL ו־TpdLH מכל כניסה ל־f — אילו וקטורי בדיקה נדרשים"},{"also":[],"exam":"s23a","n":9,"topic":"sc","pts":5,"kind":"mc","level":3,"page":1058,"desc":"טענות על מעבד Single Cycle RISC-V בן 32 סיביות — איזו נכונה"},{"also":[],"exam":"s23a","n":10,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1059,"desc":"שרשור מעגלים סינכרוניים זהים FF–CL–FF — משטר הזמנים של השרשרת"},{"also":[],"exam":"s23a","n":11,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1060,"desc":"משדר 100MHz, מקלט 80MHz וקו 8MHz — מספר ביטי המידע N האפשרי"},{"also":[],"exam":"s23a","n":12,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1062,"desc":"f מזהה מספר זוגי, g מזהה התחלקות ב־4 — מימוש h מהן"},{"also":[],"exam":"s23a","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1063,"desc":"צינור עם forwarding מלא אך בלי Load Hazard Detection — ניתוח התוכנית"},{"also":[],"exam":"s23a","n":14,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1064,"desc":"צינור לתפוקה מקסימלית ואז מספר רגיסטרים מינימלי — כמה רגיסטרים"},{"also":["asm"],"exam":"s23a","n":15,"topic":"sc","pts":10,"kind":"open","level":4,"page":1066,"desc":"לולאת lw/sw עם immediate בשם N על Single Cycle — זמן ריצה כפונקציה של N"},{"also":[],"exam":"s23a","n":16,"topic":"mc","pts":10,"kind":"open","level":5,"page":1069,"desc":"היפוך סדר איברי מערך בזיכרון — פקודה חדשה במעבד Multi-Cycle"},{"also":[],"exam":"s23a","n":17,"topic":"pp","pts":10,"kind":"open","level":4,"page":1072,"desc":"צינור עם forwarding מ־WB ל־Decode בלבד וללא HDU — הוספת NOP וזמן ריצה"},{"also":[],"exam":"s23b","n":1,"topic":"sv","pts":5,"kind":"mc","level":2,"page":1076,"desc":"always_comb שמוציא Z=1 עבור sel=00 ו־11 — איזה מקטע קוד שקול"},{"also":[],"exam":"s23b","n":2,"topic":"num","pts":5,"kind":"mc","level":3,"page":1077,"desc":"פורמט Floating-Point-8 (סימן, 3 exp עם bias=3, 4 מנטיסה) — איזה מספר לא ניתן לייצוג"},{"also":[],"exam":"s23b","n":3,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1079,"desc":"זמני השהיה תלויי α — עבור אילו α מתקיים tpd,LH(Z→Q) = tpd,HL(Z→Q)"},{"also":[],"exam":"s23b","n":4,"topic":"num","pts":5,"kind":"mc","level":3,"page":1081,"desc":"שתי הצעות לשיפור גילוי שגיאות בשידור קוד — מי עדיפה"},{"also":[],"exam":"s23b","n":5,"topic":"asm","pts":5,"kind":"mc","level":4,"page":1082,"desc":"פונקציה רקורסיבית fact הקוראת לעצמה ממקום אחד — ניתוח המחסנית וההחזרות"},{"also":[],"exam":"s23b","n":6,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1083,"desc":"רעש בשעון: T_real נע בטווח סביב T_ideal — מה תנאי התזמון"},{"also":[],"exam":"s23b","n":7,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1085,"desc":"f מקבלת ספרה בבסיס 6 בת 4 סיביות ומוציאה 1 אם היא מתחלקת ב־3"},{"also":[],"exam":"s23b","n":8,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1086,"desc":"צינור בעדיפות תפוקה, אחריה ξ מקסימלי ואז השהיה מינימלית"},{"also":[],"exam":"s23b","n":9,"topic":"serial","pts":5,"kind":"mc","level":3,"page":1088,"desc":"UART עם 8 סיביות מידע ומשדר בתדר פנימי 75MHz — זמן שידור סיבית"},{"also":[],"exam":"s23b","n":10,"topic":"sc","pts":5,"kind":"mc","level":3,"page":1089,"desc":"לולאה עם N איטרציות על Single Cycle RISC-V — זמן הריצה"},{"also":[],"exam":"s23b","n":11,"topic":"mc","pts":5,"kind":"mc","level":4,"page":1090,"desc":"פקודת brr שמשווה rs1 ל־immediate וקופצת לכתובת שב־rs2"},{"also":[],"exam":"s23b","n":12,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1091,"desc":"מעבדי צינור בתדר 5F עם ובלי forwarding ו־hazard detection — השוואה"},{"also":[],"exam":"s23b","n":13,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1092,"desc":"Mealy שמוציאה 1 אמ״מ ‏(aₜ₋₁aₜ) > (aₜ₋₂aₜ₋₁)"},{"also":[],"exam":"s23b","n":14,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1094,"desc":"קטע קוד עם slli/or/xor/lw/beq/sw על צינור — ניתוח hazards"},{"also":["asm"],"exam":"s23b","n":15,"topic":"pp","pts":10,"kind":"open","level":4,"page":1096,"desc":"שלושה סעיפים על לולאה שמכפילה איברי מערך — ניתוח הרצה בצינור"},{"also":[],"exam":"s23b","n":16,"topic":"sc","pts":10,"kind":"open","level":3,"page":1099,"desc":"Single Cycle עם זמן מחזור 200ns — חישוב זמן ריצת הקוד"},{"also":[],"exam":"s23b","n":17,"topic":"bool","pts":10,"kind":"open","level":4,"page":1101,"desc":"צמצום g = Π(6..15) במפת קרנו: מספר ה־PI וה־EPI, ואז מימוש h"},{"also":[],"exam":"w24a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1104,"desc":"קוד SystemVerilog עם reset במחזור הראשון ו־data_in=4’b1100 — מה data_out לאחר 4 מחזורים"},{"also":[],"exam":"w24a","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1105,"desc":"תחרות שירה: הודעות מכל פקולטה מגיעות עם 0/1/2 שגיאות — מרחק הקוד הנדרש"},{"also":[],"exam":"w24a","n":3,"topic":"comb","pts":5,"kind":"mc","level":4,"page":1106,"desc":"מימוש f = Π(0,1,2,5) בבוררים 2→1 בלבד, בלי שערים ובלי קבועים"},{"also":[],"exam":"w24a","n":4,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1108,"desc":"לולאה עם and/bne/srli כאשר s1 = (DCBA)₁₆ — מה הערך הסופי של s2"},{"also":[],"exam":"w24a","n":5,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1109,"desc":"שרשרת FF שבה FF אחד הוחלף בטעות בשער NOT — מה מתקבל בפועל"},{"also":[],"exam":"w24a","n":6,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1110,"desc":"מספר הרגיסטרים המינימלי לצינור המערכת לתפוקה מקסימלית"},{"also":[],"exam":"w24a","n":7,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1111,"desc":"האם f, NOT(f), ‏{f,0}, ‏{f,1} מהוות מערכת פעולות שלמה"},{"also":[],"exam":"w24a","n":8,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1112,"desc":"שידור מילות קוד של מנות במסעדה בפרוטוקול UART 8 bit — קידוד וקצב"},{"also":[],"exam":"w24a","n":9,"topic":"bool","pts":5,"kind":"mc","level":2,"page":1113,"desc":"קריאת מערכת צירופית — איזה ביטוי מבטא את f(x,y,z)"},{"also":[],"exam":"w24a","n":10,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1114,"desc":"פקודת SPRD במעבד Single Cycle עם בקר מבוסס ROM"},{"also":[],"exam":"w24a","n":11,"topic":"pp","pts":5,"kind":"mc","level":3,"page":1116,"desc":"צינור עם forwarding מלא ו־Hazard Detection — ניתוח הרצה"},{"also":[],"exam":"w24a","n":12,"topic":"asm","pts":5,"kind":"mc","level":4,"page":1117,"desc":"func1 ו־func2 עם גודל מסגרת B1 — האם הקוד עומד בקונבנציית הקריאה"},{"also":[],"exam":"w24a","n":13,"topic":"mc","pts":5,"kind":"mc","level":4,"page":1118,"desc":"פקודת SwapMemReg שמחליפה בין רגיסטר לתא זיכרון — מימוש ב־Multi-Cycle"},{"also":["mc","pp"],"exam":"w24a","n":14,"topic":"sc","pts":5,"kind":"mc","level":3,"page":1120,"desc":"Single Cycle 10ns מול Multi-Cycle 2ns מול Pipeline — מי מסיים ראשון"},{"also":["num"],"exam":"w24a","n":15,"topic":"fsm","pts":10,"kind":"open","level":4,"page":1123,"desc":"Mealy שממירה קוד גריי לבינארי כשה־MSB מתקבל ראשון"},{"also":[],"exam":"w24a","n":16,"topic":"sc","pts":10,"kind":"open","level":4,"page":1126,"desc":"הוספת פקודת subi מסוג I למעבד Single Cycle — שינויי בקר ומסלול נתונים"},{"also":[],"exam":"w24a","n":17,"topic":"timing","pts":10,"kind":"open","level":4,"page":1130,"desc":"מעגל סינכרוני עם שלושה FF — זמן המחזור המינימלי אם קיים"},{"also":[],"exam":"w24b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1134,"desc":"מודול עם parameter N=3 ורגיסטר w בן 32 סיביות — מתי done עולה"},{"also":[],"exam":"w24b","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1137,"desc":"שיטת ייצוג חדשה בת N סיביות עם סיבית סימן — טווח וייצוגים"},{"also":[],"exam":"w24b","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1139,"desc":"ארבע פונקציות בייצוג Σ ו־Π — איזו טענה נכונה לגבי היחסים ביניהן"},{"also":["num"],"exam":"w24b","n":4,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1140,"desc":"פקודת lb על המערך {24,256,513} — מה נטען לרגיסטר"},{"also":[],"exam":"w24b","n":5,"topic":"comb","pts":5,"kind":"mc","level":4,"page":1141,"desc":"מימוש f בת 5 משתנים במפענח קטן ככל האפשר עם enable ושער OR"},{"also":[],"exam":"w24b","n":6,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1142,"desc":"פקודת juc בפורמט SB שמשווה rs1 ל־rs2 — מימוש ב־Single Cycle"},{"also":["timing"],"exam":"w24b","n":7,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1143,"desc":"מעגל עם שלושה FF ושעון סימטרי — מעקב אחרי הכניסה D2 מ־t=0"},{"also":[],"exam":"w24b","n":8,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1145,"desc":"הושבה לסירוגין בשולחן עגול — מימוש f(w,x,y,z) בשערי and ו־not בלבד"},{"also":[],"exam":"w24b","n":9,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1146,"desc":"יחידת ה־Branch Comparator תקולה ב־Single Cycle — מה עוד ניתן להריץ"},{"also":[],"exam":"w24b","n":10,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1147,"desc":"Mealy שמממשת מנעול כפול: סדרת פתיחה באורך 4 ואחריה מנעול שני"},{"also":[],"exam":"w24b","n":11,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1148,"desc":"מימוש פקודת mia כפסאודו־פקודה מפקודות קיימות"},{"also":[],"exam":"w24b","n":12,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1149,"desc":"צינור לתפוקה מקסימלית ואז מספר רגיסטרים מינימלי"},{"also":[],"exam":"w24b","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1150,"desc":"forwarding מ־WB ל־Decode בלבד, הכרעת branch ב־Fetch, בלי HDU"},{"also":["mc","pp"],"exam":"w24b","n":14,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1151,"desc":"טבלת זמנים לשלושת המעבדים ותקלה שהשתרשה — השפעה על הביצועים"},{"also":[],"exam":"w24b","n":15,"topic":"mc","pts":10,"kind":"open","level":4,"page":1153,"desc":"פקודת AddDouble ‏(rd = rs1 + imm + imm) — מימוש ב־Multi-Cycle"},{"also":["mc","pp"],"exam":"w24b","n":16,"topic":"sc","pts":10,"kind":"open","level":4,"page":1155,"desc":"ALU איטי (5ns) בטבלת הזמנים — השוואת ביצועי הארכיטקטורות"},{"also":[],"exam":"w24b","n":17,"topic":"serial","pts":10,"kind":"open","level":5,"page":1158,"desc":"משדר 11ns ומקלט 3ns — בחירה בין שני פרוטוקולי UART"},{"also":[],"exam":"w24c","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1162,"desc":"ארבעה קטעי SystemVerilog עם השמות משורשרות — איזה מהם שקול לשאר"},{"also":[],"exam":"w24c","n":2,"topic":"bool","pts":5,"kind":"mc","level":2,"page":1164,"desc":"מעגל שמקבל ספרה ב־BCD ומוציא 1 אם היא גדולה ממש מ־5"},{"also":[],"exam":"w24c","n":3,"topic":"num","pts":5,"kind":"mc","level":3,"page":1165,"desc":"אילו מהמספרים ⅓, 1.375, 4, 10 ניתנים לייצוג מדויק בנקודה צפה"},{"also":[],"exam":"w24c","n":4,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1165,"desc":"f מזהה התחלקות ב־4 ו־g נתונה כ־Π — היחס בין הפונקציות"},{"also":[],"exam":"w24c","n":5,"topic":"comb","pts":5,"kind":"mc","level":4,"page":1166,"desc":"מימוש f = Σ(0,2,5,7,8,10,13,15) בבוררים 2→1 ללא enable — מספר מינימלי"},{"also":[],"exam":"w24c","n":6,"topic":"timing","pts":5,"kind":"mc","level":3,"page":1168,"desc":"שער AND הממומש מ־OR ו־NOT — חישוב tpd(AND) כמקסימום המסלולים"},{"also":[],"exam":"w24c","n":7,"topic":"fsm","pts":5,"kind":"mc","level":3,"page":1170,"desc":"Mealy שמזהה את הרצף 1001 — תכנון המכונה"},{"also":[],"exam":"w24c","n":8,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1171,"desc":"קוד שרץ על המערך {0,6,0,5,0,10,0,5} — מה התוצאה"},{"also":[],"exam":"w24c","n":9,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1172,"desc":"מעגל מרכיבי Full Adder עם tPD=6 — צינור לתפוקה מקסימלית"},{"also":[],"exam":"w24c","n":10,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1173,"desc":"UART-8 עם משדר 53MHz ומקלט 94MHz — התדר המקסימלי על הקו"},{"also":[],"exam":"w24c","n":11,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1174,"desc":"איזו מהפקודות המוצעות לא ניתן לממש כפקודה אמיתית ב־Single Cycle"},{"also":[],"exam":"w24c","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1175,"desc":"ImmGen תקול שמוציא תמיד 8 — מה יישמר ב־a0 בסוף התוכנית"},{"also":[],"exam":"w24c","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1176,"desc":"שני מעבדי צינור עם forwarding מלא ו־50% פקודות branch — השוואה"},{"also":[],"exam":"w24c","n":14,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1177,"desc":"מעבד שמניח שקפיצות נלקחות בתדר 4f מול מעבד אחר — מי מהיר"},{"also":[],"exam":"w24c","n":15,"topic":"sc","pts":10,"kind":"open","level":4,"page":1179,"desc":"פקודת swapmem שמחליפה בין תכני שתי כתובות זיכרון — מימוש ב־Single Cycle"},{"also":[],"exam":"w24c","n":16,"topic":"scan","pts":10,"kind":"open","level":4,"page":1181,"desc":"וידוא נכונות רכיב שמממש f = Σ(0,3,6,7) — אילו בדיקות נדרשות"},{"also":[],"exam":"w24c","n":17,"topic":"pp","pts":10,"kind":"open","level":4,"page":1183,"desc":"צינור עם forwarding מלא, HDU ובדיקת תנאי branch — ניתוח זמן ריצה"},{"also":[],"exam":"s24a","n":1,"topic":"sv","pts":5,"kind":"mc","level":4,"page":1186,"desc":"מודול טיימר סינכרוני שסופר גם למעלה וגם למטה מ־time_in — האם המימוש נכון"},{"also":[],"exam":"s24a","n":2,"topic":"num","pts":5,"kind":"mc","level":3,"page":1188,"desc":"המשוואה (yz)ₓ = (xy)_z — איזה סט ערכים פותר אותה"},{"also":[],"exam":"s24a","n":3,"topic":"bool","pts":5,"kind":"mc","level":2,"page":1189,"desc":"קריאת מעגל — מהו הביטוי האלגברי שהוא מממש"},{"also":[],"exam":"s24a","n":4,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1190,"desc":"פונקציה בת 5 משתנים שמוציאה 1 עבור מספרים המתחלקים ב־4"},{"also":[],"exam":"s24a","n":5,"topic":"bool","pts":5,"kind":"mc","level":2,"page":1191,"desc":"הצורה הקנונית של f(x,y,z) = y + x′z′"},{"also":[],"exam":"s24a","n":6,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1192,"desc":"מהו הזמן המינימלי והמקסימלי אחרי עליית השעון שבו האות יציב"},{"also":[],"exam":"s24a","n":7,"topic":"asm","pts":5,"kind":"mc","level":4,"page":1194,"desc":"קוד עם bge/add/sub שרץ מ־main — מה מחשבת התוכנית"},{"also":[],"exam":"s24a","n":8,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1195,"desc":"צינור לתפוקה מקסימלית עם פליפ־פלופים שאינם אידיאליים"},{"also":[],"exam":"s24a","n":9,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1197,"desc":"UART8 עם משדר 19ns ומקלט 13.33ns — זמן המחזור הנדרש על הקו"},{"also":[],"exam":"s24a","n":10,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1198,"desc":"הצינור נבנה בטעות בלי יחידת Hazard Detection — מה קורה לקוד"},{"also":[],"exam":"s24a","n":11,"topic":"sc","pts":5,"kind":"mc","level":3,"page":1199,"desc":"הפקודה sw x4, 0(x5) ב־Single Cycle — מה ערכי קווי הבקרה"},{"also":["mc"],"exam":"s24a","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1200,"desc":"פקודת addsub ‏(rd = rd + rs1 − rs2) — מה נדרש בכל אחת מהארכיטקטורות"},{"also":[],"exam":"s24a","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1201,"desc":"פיצול שלב ה־EXE לשני שלבים כדי לקצר את זמן המחזור — ההשפעה על הצינור"},{"also":[],"exam":"s24a","n":14,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1203,"desc":"קוד עם srai/xor/beq שרץ על Single Cycle כאשר s3=16 — מה התוצאה"},{"also":[],"exam":"s24a","n":15,"topic":"timing","pts":10,"kind":"open","level":4,"page":1205,"desc":"מעגל עם Tclk=15ns ויציאות Q ו־Q̄ שמשתנות יחד — בדיקת משטר הזמנים"},{"also":["num"],"exam":"s24a","n":16,"topic":"serial","pts":10,"kind":"open","level":5,"page":1209,"desc":"שידור תמונה אפורה n×n עם 8 ביטים לפיקסל — קצב, קידוד וגילוי שגיאות"},{"also":["asm"],"exam":"s24a","n":17,"topic":"mc","pts":10,"kind":"open","level":4,"page":1213,"desc":"קוד על Multi-Cycle עם רגיסטרים מאותחלים — ספירת מחזורי שעון"},{"also":[],"exam":"w25a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1218,"desc":"קוד SystemVerilog עם data_in=4’b0101 — מה data_out לאחר 3 עליות שעון"},{"also":[],"exam":"w25a","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1219,"desc":"קידוד הספרות 0–4 בשלוש סיביות עם סיבית זוגיות — יכולת גילוי ותיקון שגיאות"},{"also":[],"exam":"w25a","n":3,"topic":"bool","pts":5,"kind":"mc","level":2,"page":1220,"desc":"קריאת מערכת צירופית — מהו הביטוי האלגברי המתאים"},{"also":[],"exam":"w25a","n":4,"topic":"comb","pts":5,"kind":"mc","level":3,"page":1221,"desc":"שלושה בוררים 4→1 מחוברים יחד — מהי הפונקציה f(x,y,z) שהם מממשים"},{"also":[],"exam":"w25a","n":5,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1222,"desc":"פונקציה בת 5 סיביות שמוציאה 1 עבור ערכים המתחלקים ב־4 אך לא ב־8"},{"also":[],"exam":"w25a","n":6,"topic":"timing","pts":5,"kind":"mc","level":3,"page":1224,"desc":"חישוב tpdLH ו־tpdHL מהכניסה X למוצא לפי מפת הקרנו וזמני השערים"},{"also":[],"exam":"w25a","n":7,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1226,"desc":"הנדסה לאחור של secret_func עם a0 ו־a1 — מה היא מחזירה"},{"also":[],"exam":"w25a","n":8,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1228,"desc":"צינור עם בחירה בין רגיסטרים אידיאליים ולא אידיאליים — התפוקה המתקבלת"},{"also":[],"exam":"w25a","n":9,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1229,"desc":"מכונת Moore שמוציאה 1 רק במצב A — הפלט על מחרוזת הכניסה הנתונה"},{"also":[],"exam":"w25a","n":10,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1230,"desc":"רכיב Not(CLK) שזמן ההשהיה שלו משתנה בין 2ns ל־5ns בכל מחזור"},{"also":[],"exam":"w25a","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1232,"desc":"צינור עם הכרעת branch ב־Memory, HDU ו־forwarding — ניתוח הרצה"},{"also":["mc","pp"],"exam":"w25a","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1233,"desc":"פקודת beqi ‏(השוואת Reg[rs1] ל־imm וקפיצה) — מימוש בשלוש הארכיטקטורות"},{"also":[],"exam":"w25a","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1234,"desc":"צינור עם forwarding מלא — כמה מחזורים לוקח הקוד הנתון"},{"also":["mc","pp"],"exam":"w25a","n":14,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1235,"desc":"טבלת זמנים של רכיבי RISC-V — בניית שלוש הארכיטקטורות והשוואתן"},{"also":[],"exam":"w25a","n":15,"topic":"sc","pts":10,"kind":"open","level":5,"page":1237,"desc":"Single Cycle תקול שבו חוטי PC ו־IMM הוחלפו בבוררים שבכניסת ה־ALU"},{"also":[],"exam":"w25a","n":16,"topic":"asm","pts":10,"kind":"open","level":4,"page":1241,"desc":"לולאה עם beq/add/sw לכתובת 0x23 — מעקב אחרי הערכים והמחזורים"},{"also":[],"exam":"w25a","n":17,"topic":"serial","pts":10,"kind":"open","level":4,"page":1243,"desc":"UART-8BIT: יחס בין זמן המחזור של המשדר לזה של המקלט לשידור תקין"},{"also":[],"exam":"w25b","n":1,"topic":"sv","pts":5,"kind":"mc","level":4,"page":1247,"desc":"מתזמן round-robin ב־SystemVerilog עם request/grant — האם המימוש נכון"},{"also":[],"exam":"w25b","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1249,"desc":"מילת הקוד 10001 בקוד גריי — מהי הצגתה בנקודה צפה בת 32 סיביות"},{"also":[],"exam":"w25b","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1250,"desc":"צמצום f = Π(2,3,6,8,12) עם don’t care ל־Π(5,7,13,15) כסכום מכפלות"},{"also":[],"exam":"w25b","n":4,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1251,"desc":"עבור f = Π(8,9,10,11) — איזו קבוצה אינה מערכת פעולות שלמה"},{"also":[],"exam":"w25b","n":5,"topic":"comb","pts":5,"kind":"mc","level":3,"page":1252,"desc":"מימוש f = Σ(3,7,11,15) במפענחים 2→4 עם enable ובשערים — מספר מינימלי"},{"also":[],"exam":"w25b","n":6,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1253,"desc":"פרוטוקול דמוי UART עם x סיביות מידע — תנאי הדגימה התקינה"},{"also":[],"exam":"w25b","n":7,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1255,"desc":"אילו מהפקודות ניתן לתמוך ב־Single Cycle בשינויי בקר, חיווט והרחבת בוררים"},{"also":[],"exam":"w25b","n":8,"topic":"fsm","pts":5,"kind":"mc","level":5,"page":1256,"desc":"Mealy שקוראת מספר מה־MSB ומוציאה 1 כשהוא מתחלק ב־9 וכמות האפסים זוגית"},{"also":[],"exam":"w25b","n":9,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1257,"desc":"קוד שרץ על המערך [6,3,4,2,4] — מה הערך של a1 בסוף"},{"also":[],"exam":"w25b","n":10,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1258,"desc":"צינור עם רגיסטרים שבהם tsu=1 — התפוקה וההשהיה המתקבלות"},{"also":[],"exam":"w25b","n":11,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1260,"desc":"יחידת Secret Key Generator חדשה ופקודה לאחסון צופן ברגיסטר"},{"also":["mc"],"exam":"w25b","n":12,"topic":"exc","pts":5,"kind":"mc","level":4,"page":1261,"desc":"הוספת מצב שמטפל בחריגת op-code לא ידוע ב־Multi-Cycle"},{"also":[],"exam":"w25b","n":13,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1262,"desc":"צינור עם forwarding מ־WB ל־Dec ומנגנונים נוספים מהשרטוט — מה נדרש"},{"also":[],"exam":"w25b","n":14,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1263,"desc":"פיצול שלב ה־Execute לשני שלבים כדי לקצר את זמן המחזור"},{"also":[],"exam":"w25b","n":15,"topic":"timing","pts":10,"kind":"open","level":4,"page":1266,"desc":"מערכת סינכרונית עם שערי AND/OR — בדיקת setup ו־hold וזמן מחזור"},{"also":["sc","mc"],"exam":"w25b","n":16,"topic":"pp","pts":10,"kind":"open","level":4,"page":1271,"desc":"הגדרת CPI והשוואת ביצועים בין מעבדי צינור שונים"},{"also":[],"exam":"w25b","n":17,"topic":"timing","pts":10,"kind":"open","level":4,"page":1274,"desc":"מעגל של רן עם זמני רכיבים נתונים — חישובי tpd ומשטר זמנים"},{"also":[],"exam":"s25a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1278,"desc":"מודול עם parameter N=4 ומונה count בן 32 סיביות — מה תדר המוצא pulse"},{"also":[],"exam":"s25a","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1279,"desc":"קוד לקידוד שמות סטודנטים — כמה שמות ניתן להוסיף בלי לפגוע בגילוי ותיקון שגיאות"},{"also":[],"exam":"s25a","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1280,"desc":"איזו מערכת צירופית שקולה לפונקציה f(w,x,y,z) הנתונה"},{"also":[],"exam":"s25a","n":4,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1282,"desc":"כמה פונקציות בשלושה משתנים מקיימות f(x,x,x) = NOT(x)"},{"also":[],"exam":"s25a","n":5,"topic":"comb","pts":5,"kind":"mc","level":4,"page":1283,"desc":"f בת 5 משתנים הממומשת במפענחים ושערי XOR — ניתוח המימוש"},{"also":[],"exam":"s25a","n":6,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1284,"desc":"רוחב הפולס המינימלי במוצא AND לפי tpd ו־tcd של NOT ו־AND"},{"also":[],"exam":"s25a","n":7,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1285,"desc":"טענות על פרוטוקול הקריאה לפונקציה: שמירת ra, jr ra ומחסנית"},{"also":[],"exam":"s25a","n":8,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1286,"desc":"תמהיל רגיסטרים A/B/C במחירים שונים לצינור בתפוקה מקסימלית ובמחיר מינימלי"},{"also":[],"exam":"s25a","n":9,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1288,"desc":"UART8bit עם משדר 3ns ומקלט 10ns — קצב השידור המקסימלי ללא שגיאה"},{"also":[],"exam":"s25a","n":10,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1289,"desc":"Jitter בשעון של FF שיכול להקדים או לאחר — תנאי משטר הזמנים"},{"also":[],"exam":"s25a","n":11,"topic":"scan","pts":5,"kind":"mc","level":3,"page":1291,"desc":"טענות על שיטת ה־Scan כפי שנלמדה — מה היא בודקת ומה לא"},{"also":[],"exam":"s25a","n":12,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1292,"desc":"פקודת Movz ‏(rd = rs1 אם rs2 == 0, אחרת 0) — מימוש ב־Single Cycle"},{"also":["asm"],"exam":"s25a","n":13,"topic":"mc","pts":5,"kind":"mc","level":3,"page":1293,"desc":"כמה מחזורי שעון ייקח לקוד הנתון לרוץ על מעבד Multi-Cycle"},{"also":["mc","pp"],"exam":"s25a","n":14,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1294,"desc":"פילוג פקודות נתון — באיזו מבין שלוש הארכיטקטורות כדאי להריץ"},{"also":[],"exam":"s25a","n":15,"topic":"pp","pts":10,"kind":"open","level":5,"page":1297,"desc":"צינור עם branch ב־EXE, forwarding מלא ו־Load HDU, אך רק 5 ביטים ברגיסטר הפקודה"},{"also":[],"exam":"s25a","n":16,"topic":"sc","pts":10,"kind":"open","level":4,"page":1301,"desc":"Single Cycle תקול: הכניסה PC+4 אינה מחוברת לבורר של שלב ה־WB"},{"also":[],"exam":"s25a","n":17,"topic":"fsm","pts":10,"kind":"open","level":4,"page":1304,"desc":"טבלת מצבים בת 8 מצבים — בחירת מצב התחלתי וצמצום המכונה"},{"also":[],"exam":"s25b","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1308,"desc":"איזה קטע SystemVerilog מייצר בדיוק את ההתנהגות שבדיאגרמת הגלים"},{"also":[],"exam":"s25b","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1309,"desc":"קוד שבתיה, יוסי ומיכה משתמשים בו — מרחק הקוד ויכולת התיקון"},{"also":[],"exam":"s25b","n":3,"topic":"bool","pts":5,"kind":"mc","level":3,"page":1310,"desc":"f = Π(1,3,4,6,9,11,12,14) — לאיזה שער לוגי בודד היא שקולה"},{"also":[],"exam":"s25b","n":4,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1311,"desc":"שני רכיבים A ו־B הממומשים מ־NAND/AND — הקשר בין ה־tpd שלהם"},{"also":[],"exam":"s25b","n":5,"topic":"fsm","pts":5,"kind":"mc","level":4,"page":1312,"desc":"מכונות מור ומילי שמזהות התחלקות ב־256 בקריאה מה־MSB — השוואת מספר המצבים"},{"also":[],"exam":"s25b","n":6,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1313,"desc":"צינור עם forwarding מ־WB ל־DEC בלבד, שמניח שקפיצות נלקחות"},{"also":["sc"],"exam":"s25b","n":7,"topic":"mc","pts":5,"kind":"mc","level":3,"page":1314,"desc":"איזה משפט שגוי לגבי הארכיטקטורה של Multi-Cycle RISC-V"},{"also":[],"exam":"s25b","n":8,"topic":"timing","pts":5,"kind":"mc","level":4,"page":1315,"desc":"המערכת הסינכרונית שבנתה שושי — בדיקת משטר הזמנים"},{"also":[],"exam":"s25b","n":9,"topic":"pipec","pts":5,"kind":"mc","level":4,"page":1317,"desc":"צינור המערכת בהגבלה של 11 רגיסטרים לכל היותר"},{"also":["num"],"exam":"s25b","n":10,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1319,"desc":"פרוטוקול UART-X עם X סיביות מידע ותוספת סיבית זוגיות"},{"also":[],"exam":"s25b","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1320,"desc":"זמני השהיה של רכיבי הצינור (IMEM, RegFile, ALU, DMEM) — זמן המחזור"},{"also":[],"exam":"s25b","n":12,"topic":"isa","pts":5,"kind":"mc","level":3,"page":1321,"desc":"פענוח מחרוזת סיביות לפי פורמט RISC-V — לאיזו פקודה היא מתורגמת"},{"also":[],"exam":"s25b","n":13,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1322,"desc":"פקודת link2 שכותבת PC+4 ל־rs1 ו־PC+imm ל־rs2 לפני הקפיצה"},{"also":[],"exam":"s25b","n":14,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1323,"desc":"צינור עם forwarding מלא בכל השלבים והכרעת branch ב־MEM — הוספת רכיב"},{"also":["arith"],"exam":"s25b","n":15,"topic":"comb","pts":10,"kind":"open","level":4,"page":1326,"desc":"רכיב צירופי שמקבל שני וקטורים בני n סיביות ומוציא את המקסימום"},{"also":[],"exam":"s25b","n":16,"topic":"asm","pts":10,"kind":"open","level":4,"page":1330,"desc":"הפונקציה func עם slli/xor/beq שמקבלת a0 — מה היא מחשבת"},{"also":["comb"],"exam":"s25b","n":17,"topic":"bool","pts":10,"kind":"open","level":4,"page":1332,"desc":"f = Π(3,7,11,15): האם מערכת פעולות שלמה, ומימוש במספר בוררים מינימלי"},{"also":[],"exam":"w26a","n":1,"topic":"sv","pts":5,"kind":"mc","level":3,"page":1355,"desc":"always_comb עם case על w ותנאים על a — מה הערכים של z1 ו־z2"},{"also":[],"exam":"w26a","n":2,"topic":"num","pts":5,"kind":"mc","level":4,"page":1356,"desc":"קוד למילים (אירנה, לותר, כרמלה, ראובן) — טענות על גילוי ותיקון שגיאות"},{"also":[],"exam":"w26a","n":3,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1357,"desc":"הרכיב הצירופי הנתון — האם הוא מערכת פעולות שלמה, ובתוספת מה"},{"also":["comb"],"exam":"w26a","n":4,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1358,"desc":"האם MUX 8→1, DECODER 3→8, FULL ADDER ו־HALF ADDER הם מערכות פעולות שלמות"},{"also":[],"exam":"w26a","n":5,"topic":"timing","pts":5,"kind":"mc","level":3,"page":1359,"desc":"חישוב Tpd(A→Q) במעגל צירופי בן 4 כניסות עם tpd,LH ו־tpd,HL"},{"also":[],"exam":"w26a","n":6,"topic":"timing","pts":5,"kind":"mc","level":5,"page":1361,"desc":"מערכת סינכרונית עם Buffer בהשהיה N ואות בקרה CTR — מהו ה־N המקסימלי"},{"also":[],"exam":"w26a","n":7,"topic":"bool","pts":5,"kind":"mc","level":4,"page":1363,"desc":"מימוש h = f ⊕ g במספר מינימלי של שערים — צמצום שתי הפונקציות"},{"also":[],"exam":"w26a","n":8,"topic":"serial","pts":5,"kind":"mc","level":4,"page":1365,"desc":"פרוטוקול דמוי UART עם N סיביות, משדר 12MHz וקו 4MHz — מהו N"},{"also":[],"exam":"w26a","n":9,"topic":"sc","pts":5,"kind":"mc","level":4,"page":1366,"desc":"ווטסון בונה Single Cycle עם זמן מחזור קצר משל שרלוק — מה השתנה"},{"also":["mc"],"exam":"w26a","n":10,"topic":"exc","pts":5,"kind":"mc","level":4,"page":1367,"desc":"טיפול זהה בחריגות ובפסיקות ב־Multi-Cycle דרך מערכת ההפעלה"},{"also":[],"exam":"w26a","n":11,"topic":"pp","pts":5,"kind":"mc","level":4,"page":1368,"desc":"קוד עם lui/lw/srai/sw/srli/bne על Pipeline RISC-V — ניתוח הרצה"},{"also":[],"exam":"w26a","n":12,"topic":"pipec","pts":5,"kind":"mc","level":3,"page":1369,"desc":"צינור המערכת הצירופית — התפוקה וזמן המחזור המינימלי"},{"also":[],"exam":"w26a","n":13,"topic":"pp","pts":5,"kind":"mc","level":3,"page":1370,"desc":"שתי פקודות lw ואחריהן add — טיפול ב־load hazard עם forwarding מלא"},{"also":[],"exam":"w26a","n":14,"topic":"asm","pts":5,"kind":"mc","level":3,"page":1371,"desc":"הקוד שבובספוג מצא: lw/addi/sub/bne — מה הוא מחשב"},{"also":[],"exam":"w26a","n":15,"topic":"asm","pts":10,"kind":"open","level":4,"page":1373,"desc":"קוד שמחשב את מספר הדרכים לעלות סולם בן n שלבים — מימוש באסמבלי"},{"also":[],"exam":"w26a","n":16,"topic":"fsm","pts":10,"kind":"open","level":4,"page":1375,"desc":"מכונת מצבים בת 7 מצבים {A…G}: Mealy או Moore, וצמצום המכונה"},{"also":[],"exam":"w26a","n":17,"topic":"sc","pts":10,"kind":"open","level":4,"page":1378,"desc":"Single Cycle תקול שבו funct7 אינו מגיע ל־ALU ctrl — אילו פקודות ייפגעו"}];
+
+const KEY = 'ds044252.solved.v2';
+let solved = new Set();
+try { solved = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) {}
+try {
+  const old = JSON.parse(localStorage.getItem('ds044252.solved.v1') || '[]');
+  if (old.length && !solved.size) { old.forEach(k => solved.add(k)); localStorage.setItem(KEY, JSON.stringify([...solved])); }
+} catch (e) {}
+
+const qid = q => q.exam + '-' + q.n;
+const filters = { band:'all', kind:'all', status:'all', year:'all', text:'' };
+const el = s => document.querySelector(s);
+const TMAP = Object.fromEntries(TOPICS.map(t => [t.id, t]));
+const XMAP = Object.fromEntries(EXAMS.map(x => [x.id, x]));
+const bandOf = tid => TMAP[tid].band;
+const topicName = tid => TMAP[tid].name;
+
+function levelBars(n) {
+  let s = '<span class="level" aria-label="קושי ' + n + ' מתוך 5" title="דירוג קושי ' + n + '/5">';
+  for (let i = 1; i <= 5; i++) s += '<i class="' + (i <= n ? 'on' : '') + '"></i>';
+  return s + '</span>';
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function examVisible(x) { return filters.year === 'all' || String(x.year) === filters.year; }
+
+function matches(q) {
+  if (!examVisible(XMAP[q.exam])) return false;
+  if (filters.band !== 'all' && bandOf(q.topic) !== filters.band) return false;
+  if (filters.kind !== 'all' && q.kind !== filters.kind) return false;
+  const done = solved.has(qid(q));
+  if (filters.status === 'done' && !done) return false;
+  if (filters.status === 'todo' && done) return false;
+  if (filters.text) {
+    const hay = (q.desc + ' ' + topicName(q.topic) + ' ' + (q.also || []).map(topicName).join(' ')).toLowerCase();
+    if (!hay.includes(filters.text)) return false;
+  }
+  return true;
+}
+
+function buildHead() {
+  el('#headRow').innerHTML = '<th class="corner"><div class="corner-title">נושא / מועד</div></th>' +
+    EXAMS.map(x =>
+      '<th data-examcol="' + x.id + '">' +
+        '<div class="col-year">' + x.year + '</div>' +
+        '<div class="col-sem">' + x.sem + '</div>' +
+        '<div class="col-moed">' + x.moed + '</div>' +
+        '<div class="col-date">' + x.date + '</div>' +
+        '<div class="col-tally" dir="ltr" data-tally="' + x.id + '">0/0</div>' +
+        '<div class="col-bar"><i data-bar="' + x.id + '" style="width:0%"></i></div>' +
+      '</th>').join('');
+}
+
+function cardHTML(q) {
+  const id = qid(q);
+  const also = (q.also || []).map(topicName).join(' · ');
+  return '<label class="card" data-q="' + id + '">' +
+    '<input type="checkbox" ' + (solved.has(id) ? 'checked' : '') + ' aria-label="שאלה ' + q.n + ' נפתרה">' +
+    '<span>' +
+      '<span class="q-top">' +
+        '<span class="q-no">שאלה ' + q.n + '</span>' +
+        '<span class="q-pts">' + q.pts + ' נק׳</span>' +
+        '<span class="q-kind ' + (q.kind === 'open' ? 'open' : '') + '">' + (q.kind === 'open' ? 'פתוחה' : 'אמריקאית') + '</span>' +
+      '</span>' +
+      '<span class="q-desc">' + esc(q.desc) + '</span>' +
+      '<span class="q-foot">' + levelBars(q.level) +
+        '<span class="q-page">PDF p.' + q.page + '</span>' +
+        (also ? '<span class="q-also">גם: ' + also + '</span>' : '') +
+      '</span>' +
+    '</span></label>';
+}
+
+function buildBody() {
+  let html = '';
+  for (const band of BANDS) {
+    html += '<tr class="band" data-bandrow="' + band.id + '"><th><div class="band-name"><span class="tag">' + band.tag +
+      '</span></div></th><td colspan="' + EXAMS.length + '"><div class="band-name">' +
+      '<span class="band-heb">' + band.heb + '</span><span class="rule"></span></div></td></tr>';
+    for (const t of TOPICS.filter(t => t.band === band.id)) {
+      html += '<tr data-band="' + band.id + '" data-topic="' + t.id + '">' +
+        '<th><div class="topic">' + t.name + '</div><div class="topic-meta" dir="ltr" data-topicmeta="' + t.id + '"></div></th>';
+      for (const x of EXAMS) {
+        const list = Q.filter(q => q.exam === x.id && q.topic === t.id);
+        html += '<td data-cellexam="' + x.id + '">' + (list.length
+          ? '<div class="stack">' + list.map(cardHTML).join('') + '</div>'
+          : '<div class="empty">—</div>') + '</td>';
+      }
+      html += '</tr>';
+    }
+  }
+  el('#body').innerHTML = html;
+}
+
+function buildWave() {
+  const W = 1240, mid = 23, amp = 13, periods = 31;
+  const step = W / (periods * 2);
+  let d = 'M 0 ' + (mid + amp), x = 0, up = true;
+  for (let i = 0; i < periods * 2; i++) {
+    const y = up ? mid - amp : mid + amp;
+    d += ' L ' + x.toFixed(1) + ' ' + y + ' L ' + (x + step).toFixed(1) + ' ' + y;
+    x += step; up = !up;
+  }
+  el('#pathTrack').setAttribute('d', d);
+  el('#pathLive').setAttribute('d', d);
+}
+
+function refresh() {
+  let visible = 0;
+  const perExam = {}, perTopic = {};
+  EXAMS.forEach(x => perExam[x.id] = { d:0, t:0 });
+  TOPICS.forEach(t => perTopic[t.id] = { d:0, t:0 });
+  const QMAP = {}; Q.forEach(q => QMAP[qid(q)] = q);
+
+  document.querySelectorAll('.card').forEach(card => {
+    const q = QMAP[card.dataset.q];
+    const show = matches(q);
+    card.hidden = !show;
+    if (show) {
+      visible++;
+      const done = solved.has(card.dataset.q) ? 1 : 0;
+      perExam[q.exam].t++; perExam[q.exam].d += done;
+      perTopic[q.topic].t++; perTopic[q.topic].d += done;
+    }
+  });
+
+  // hide whole exam columns filtered out by year
+  EXAMS.forEach(x => {
+    const on = examVisible(x);
+    const h = document.querySelector('[data-examcol="' + x.id + '"]');
+    if (h) h.hidden = !on;
+    document.querySelectorAll('[data-cellexam="' + x.id + '"]').forEach(td => td.hidden = !on);
+  });
+  const shownCols = EXAMS.filter(examVisible).length;
+  document.querySelectorAll('tr.band > td').forEach(td => td.colSpan = shownCols);
+
+  document.querySelectorAll('tr[data-topic]').forEach(tr => {
+    const c = perTopic[tr.dataset.topic];
+    tr.hidden = c.t === 0;
+    tr.querySelector('[data-topicmeta]').textContent = c.t ? c.d + '/' + c.t : '';
+  });
+  document.querySelectorAll('tr.band').forEach(tr => {
+    let next = tr.nextElementSibling, any = false;
+    while (next && !next.classList.contains('band')) { if (!next.hidden) any = true; next = next.nextElementSibling; }
+    tr.hidden = !any;
+  });
+  EXAMS.forEach(x => {
+    const c = perExam[x.id];
+    const t = document.querySelector('[data-tally="' + x.id + '"]');
+    if (t) t.textContent = c.d + '/' + c.t;
+    const b = document.querySelector('[data-bar="' + x.id + '"]');
+    if (b) b.style.width = (c.t ? c.d / c.t * 100 : 0) + '%';
+  });
+
+  const pool = Q.filter(q => examVisible(XMAP[q.exam]));
+  const done = pool.filter(q => solved.has(qid(q))).length;
+  const ptsT = pool.reduce((s,q) => s + q.pts, 0);
+  const ptsD = pool.filter(q => solved.has(qid(q))).reduce((s,q) => s + q.pts, 0);
+  const mc = pool.filter(q => q.kind === 'mc'), op = pool.filter(q => q.kind === 'open');
+  el('#doneCount').textContent = done;
+  el('#totalCount').textContent = pool.length;
+  el('#ptsDone').textContent = ptsD + '/' + ptsT;
+  el('#mcTally').textContent = mc.filter(q => solved.has(qid(q))).length + '/' + mc.length;
+  el('#openTally').textContent = op.filter(q => solved.has(qid(q))).length + '/' + op.length;
+  el('#visTally').textContent = visible;
+  el('#clipRect').setAttribute('width', (pool.length ? done / pool.length * 1240 : 0).toFixed(1));
+  el('#noneMsg').hidden = visible > 0;
+}
+
+buildHead(); buildBody(); buildWave(); refresh();
+
+el('#body').addEventListener('change', e => {
+  const box = e.target.closest('input[type=checkbox]');
+  if (!box) return;
+  const id = box.closest('.card').dataset.q;
+  box.checked ? solved.add(id) : solved.delete(id);
+  localStorage.setItem(KEY, JSON.stringify([...solved]));
+  refresh();
+});
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const key = ['band','kind','status','year'].find(k => chip.dataset[k] !== undefined);
+    filters[key] = chip.dataset[key];
+    document.querySelectorAll('.chip[data-' + key + ']').forEach(c =>
+      c.setAttribute('aria-pressed', String(c.dataset[key] === filters[key])));
+    refresh();
+  });
+});
+
+el('#search').addEventListener('input', e => { filters.text = e.target.value.trim().toLowerCase(); refresh(); });
+
+el('#resetBtn').addEventListener('click', () => {
+  if (!solved.size || confirm('לאפס את כל הסימונים?')) {
+    solved.clear();
+    localStorage.setItem(KEY, '[]');
+    document.querySelectorAll('.card input').forEach(b => b.checked = false);
+    refresh();
+  }
+});
+
+el('#themeBtn').addEventListener('click', () => {
+  const cur = document.documentElement.dataset.theme ||
+    (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.dataset.theme = cur === 'dark' ? 'light' : 'dark';
+});
+</script>
