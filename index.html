@@ -13,7 +13,7 @@
     --surface-2: #EAECE5;
     --text:      #14201E;
     --dim:       #5B6A65;
-    --faint:     #8C9894;
+    --faint:     #5F6E67;   /* 4.51:1 על כל שלושת המשטחים — היה 2.99 ונכשל AA */
     --line:      #D7DBD2;
     --line-soft: #E6E9E1;
     --accent:    #0F6E5E;
@@ -21,7 +21,7 @@
     --scroll-track: #E4E7DF;
     --scroll-thumb: #9AA6A0;
     --scroll-thumb-hover: #6E7C76;
-    --arch:  #A9740E;
+    --arch:  #8A5E0B;       /* 5.7:1 — היה 4.05 ונכשל AA למספר השאלה */
     --comb:  #0F6E5E;
     --seq:   #474DA6;
     --uarch: #A33F29;
@@ -32,7 +32,7 @@
   /* התצוגה הבהירה היא ברירת המחדל; המצב הכהה נבחר ידנית בכפתור ונשמר בדפדפן */
   :root[data-theme="dark"] {
     --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
-    --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
+    --dim:#8B9793; --faint:#7F8C87; --line:#242F32; --line-soft:#1D2629;
     --accent:#3EBFA4; --done-bg:#10231F;
     --scroll-track:#1A2326; --scroll-thumb:#3C4A4D; --scroll-thumb-hover:#55686B;
     --arch:#DFA93C; --comb:#3EBFA4; --seq:#8D93E9; --uarch:#E37A5F;
@@ -40,10 +40,10 @@
   }
   :root[data-theme="light"] {
     --bg:#F4F5F1; --surface:#FFFFFF; --surface-2:#EAECE5; --text:#14201E;
-    --dim:#5B6A65; --faint:#8C9894; --line:#D7DBD2; --line-soft:#E6E9E1;
+    --dim:#5B6A65; --faint:#5F6E67; --line:#D7DBD2; --line-soft:#E6E9E1;
     --accent:#0F6E5E; --done-bg:#E7F1ED;
     --scroll-track:#E4E7DF; --scroll-thumb:#9AA6A0; --scroll-thumb-hover:#6E7C76;
-    --arch:#A9740E; --comb:#0F6E5E; --seq:#474DA6; --uarch:#A33F29;
+    --arch:#8A5E0B; --comb:#0F6E5E; --seq:#474DA6; --uarch:#A33F29;
     --shadow: 0 1px 2px rgba(20,32,30,.06), 0 6px 18px -12px rgba(20,32,30,.22);
   }
 
@@ -368,7 +368,7 @@
 
   <section class="meter" aria-label="התקדמות">
     <svg class="wave" id="wave" viewBox="0 0 1240 46" preserveAspectRatio="none" aria-hidden="true">
-      <defs><clipPath id="clip"><rect id="clipRect" x="0" y="0" width="0" height="46"/></clipPath></defs>
+      <defs><clipPath id="clip"><rect id="clipRect" x="1240" y="0" width="0" height="46"/></clipPath></defs>
       <path class="track" id="pathTrack" d=""/>
       <g clip-path="url(#clip)"><path class="live" id="pathLive" d=""/></g>
     </svg>
@@ -692,7 +692,11 @@ function refresh() {
   el('#mcTally').textContent = mc.filter(q => solved.has(qid(q))).length + '/' + mc.length;
   el('#openTally').textContent = op.filter(q => solved.has(qid(q))).length + '/' + op.length;
   el('#visTally').textContent = visible;
-  el('#clipRect').setAttribute('width', (pool.length ? done / pool.length * 1240 : 0).toFixed(1));
+  /* המילוי מתחיל מימין, כמו כיוון הקריאה. חלון החיתוך נצמד לקצה הימני
+     ומתרחב שמאלה, ולכן x זז ולא רק width. */
+  const fillW = pool.length ? done / pool.length * 1240 : 0;
+  el('#clipRect').setAttribute('width', fillW.toFixed(1));
+  el('#clipRect').setAttribute('x', (1240 - fillW).toFixed(1));
   el('#noneMsg').hidden = visible > 0;
 }
 
