@@ -630,7 +630,7 @@ function applyView(v) {
   page.classList.toggle('view-table', v === 'table');
   el('#viewBtn').textContent = v === 'table' ? 'תצוגת רשימה' : 'תצוגת טבלה';
 }
-applyView(localStorage.getItem(VIEW_KEY) || 'list');
+applyView(localStorage.getItem(VIEW_KEY) || 'table');
 el('#viewBtn').addEventListener('click', () => {
   const next = page.classList.contains('view-table') ? 'list' : 'table';
   localStorage.setItem(VIEW_KEY, next);
