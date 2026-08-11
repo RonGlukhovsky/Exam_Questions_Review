@@ -18,6 +18,9 @@
     --line-soft: #E6E9E1;
     --accent:    #0F6E5E;
     --done-bg:   #E7F1ED;
+    --scroll-track: #E4E7DF;
+    --scroll-thumb: #9AA6A0;
+    --scroll-thumb-hover: #6E7C76;
     --arch:  #A9740E;
     --comb:  #0F6E5E;
     --seq:   #474DA6;
@@ -31,6 +34,7 @@
     --bg:#0C1113; --surface:#141B1E; --surface-2:#1A2326; --text:#E3E9E5;
     --dim:#8B9793; --faint:#6B7874; --line:#242F32; --line-soft:#1D2629;
     --accent:#3EBFA4; --done-bg:#10231F;
+    --scroll-track:#1A2326; --scroll-thumb:#3C4A4D; --scroll-thumb-hover:#55686B;
     --arch:#DFA93C; --comb:#3EBFA4; --seq:#8D93E9; --uarch:#E37A5F;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 20px -14px rgba(0,0,0,.7);
   }
@@ -38,12 +42,37 @@
     --bg:#F4F5F1; --surface:#FFFFFF; --surface-2:#EAECE5; --text:#14201E;
     --dim:#5B6A65; --faint:#8C9894; --line:#D7DBD2; --line-soft:#E6E9E1;
     --accent:#0F6E5E; --done-bg:#E7F1ED;
+    --scroll-track:#E4E7DF; --scroll-thumb:#9AA6A0; --scroll-thumb-hover:#6E7C76;
     --arch:#A9740E; --comb:#0F6E5E; --seq:#474DA6; --uarch:#A33F29;
     --shadow: 0 1px 2px rgba(20,32,30,.06), 0 6px 18px -12px rgba(20,32,30,.22);
   }
 
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
+
+  /* פסי הגרירה מעוצבים במפורש. ברירת המחדל של macOS היא פס שקוף שמופיע רק
+     בזמן גלילה, ועל רקע לבן הוא בלתי נראה — ואז אין במה לאחוז כדי לגרור הצידה. */
+  /* פס גלילה קלאסי וקבוע: ב-macOS ברירת המחדל היא overlay שקוף שנעלם,
+     ועל רקע בהיר אין במה לאחוז. ::-webkit-scrollbar עם רוחב מפורש מכריח
+     פס תמידי בכרום ובספארי. scrollbar-color נשאר לפיירפוקס בלבד, כי בכרום
+     הוא דורס את הפסאודו-אלמנטים ומחזיר פס דק. */
+  @supports (-moz-appearance: none) {
+    .frame, .picker, .page { scrollbar-color: var(--scroll-thumb) var(--scroll-track); }
+  }
+  .frame::-webkit-scrollbar, .picker::-webkit-scrollbar, .page::-webkit-scrollbar {
+    inline-size: 13px; block-size: 13px;
+  }
+  .frame::-webkit-scrollbar-track, .picker::-webkit-scrollbar-track, .page::-webkit-scrollbar-track {
+    background: var(--scroll-track);
+  }
+  .frame::-webkit-scrollbar-thumb, .picker::-webkit-scrollbar-thumb, .page::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb); border-radius: 8px;
+    border: 3px solid var(--scroll-track); background-clip: padding-box;
+  }
+  .frame::-webkit-scrollbar-thumb:hover, .picker::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hover); background-clip: padding-box;
+  }
+  .frame::-webkit-scrollbar-corner, .picker::-webkit-scrollbar-corner { background: var(--scroll-track); }
 
   /* app-shell: הדף בגובה החלון, והגלילה היחידה היא בתוך הטבלה.
      dvh במקום vh כדי ששורת הכתובת בטלפון לא תשנה את הגובה תוך כדי גלילה. */
@@ -276,7 +305,10 @@
     /* בתצוגת הרשימה הדף נגלל רגיל — אין טבלה שתחזיק את הגלילה */
     .page:not(.view-table) { block-size: auto; overflow: visible; }
     .page:not(.view-table) .shell { flex: 0 1 auto; }
-    footer.note { display: none; }
+    /* ההערה על מספרי העמודים נשארת גם בטלפון; שורת הסילבוס לא */
+    footer.note { font-size: 11px; padding-block-start: 8px; }
+    .syllabus-note { display: none; }
+    footer.note code { font-size: 10.5px; }
 
     /* ראש הדף מתקצר כדי שהשאלות יהיו קרובות לראש המסך */
     .shell { gap: 14px; }
@@ -425,8 +457,8 @@
   <div class="none" id="noneMsg" hidden>אין שאלות שתואמות את הסינון.</div>
 
   <footer class="note">
-    <span>מספרי העמודים מפנים לקובץ <code>All Past Exams 2018-2026.pdf</code> — לעמוד שבו מופיעה השאלה.</span>
-    <span>סילבוס: Arch &middot; Comb &middot; Seq &middot; µArch</span>
+    <span class="pagenote">מספרי העמודים (<b>עמ׳</b>) מפנים לקובץ המאגד את כל המבחנים — <code>All Past Exams 2018-2026.pdf</code> — ולא למספור הפנימי של המבחן.</span>
+    <span class="syllabus-note">סילבוס: Arch &middot; Comb &middot; Seq &middot; µArch</span>
   </footer>
 
 </div>
@@ -533,7 +565,7 @@ function cardHTML(q, withExam) {
       '</span>' +
       '<span class="q-desc">' + esc(q.desc) + '</span>' +
       '<span class="q-foot">' + levelBars(q.level) +
-        '<span class="q-page">PDF p.' + q.page + '</span>' +
+        '<span class="q-page" title="עמוד ' + q.page + ' בקובץ המאגד את כל המבחנים (All Past Exams 2018–2026.pdf)">עמ׳ ' + q.page + '</span>' +
         (also ? '<span class="q-also">גם: ' + also + '</span>' : '') +
       '</span>' +
     '</span></label>';
