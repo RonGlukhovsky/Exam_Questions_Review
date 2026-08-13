@@ -133,6 +133,10 @@
   .chip.band-seq   .dot { background: var(--seq); }
   .chip.band-uarch .dot { background: var(--uarch); }
   .chip.year { font-family: var(--mono); font-size: 12px; }
+  .flag-chip svg { inline-size: 13px; block-size: 13px; }
+  .flag-chip .flag-cloth { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
+  .flag-chip .flag-pole  { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+  .flag-chip[aria-pressed="true"] .flag-cloth { fill: currentColor; }
 
   .search {
     font: inherit; font-size: 13.5px; color: var(--text); background: var(--surface);
@@ -208,7 +212,7 @@
 
   .stack { display: flex; flex-direction: column; gap: 7px; }
   .card {
-    display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px;
+    display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 9px;
     background: var(--surface); border: 1px solid var(--line);
     border-inline-start: 3px solid var(--band-hue); border-radius: 3px; padding: 9px 10px;
     cursor: pointer; transition: border-color .12s, background .12s;
@@ -218,6 +222,27 @@
   .card:has(input:checked) .q-desc { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--faint); }
   .card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
   .card input { margin: 2px 0 0; inline-size: 15px; block-size: 15px; accent-color: var(--accent); cursor: pointer; }
+
+  /* דגל "לחזור לזה" — מימד נפרד מ'נפתר', ולכן גם צבע נפרד (--uarch)
+     ולא צבע האשכול, כדי שלא ייקרא כחלק מקידוד הנושאים. */
+  .flag {
+    align-self: start; margin: -2px -3px 0 0; padding: 3px;
+    background: none; border: 0; cursor: pointer; line-height: 0;
+    border-radius: 4px; color: var(--faint);
+  }
+  .flag svg { inline-size: 15px; block-size: 15px; display: block; }
+  .flag .flag-cloth { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
+  .flag .flag-pole  { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+  .flag:hover { color: var(--uarch); background: color-mix(in srgb, var(--uarch) 10%, transparent); }
+  .flag:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .flag[aria-pressed="true"] { color: var(--uarch); }
+  .flag[aria-pressed="true"] .flag-cloth { fill: currentColor; }
+
+  /* כרטיס מסומן: פס עדין בקצה, בלי לגעת בפס האשכול שבצד השני */
+  .card:has(.flag[aria-pressed="true"]) {
+    border-inline-end: 3px solid var(--uarch);
+    padding-inline-end: 7px;
+  }
 
   .q-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .q-no { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--band-hue); font-variant-numeric: tabular-nums; }
@@ -377,6 +402,7 @@
       <span>אמריקאיות <b dir="ltr" id="mcTally">0/0</b></span>
       <span>פתוחות <b dir="ltr" id="openTally">0/0</b></span>
       <span>מוצג <b dir="ltr" id="visTally">0</b></span>
+      <span>בדגל <b dir="ltr" id="flagTally">0</b></span>
     </div>
   </section>
 
@@ -423,6 +449,12 @@
         <button class="chip" data-status="all" aria-pressed="true" type="button">הכל</button>
         <button class="chip" data-status="todo" aria-pressed="false" type="button">לא נפתרו</button>
         <button class="chip" data-status="done" aria-pressed="false" type="button">נפתרו</button>
+        <button class="chip flag-chip" id="flagFilter" aria-pressed="false" type="button">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path class="flag-cloth" d="M3.6 1.7c2.4-1.1 4.7.9 7.1-.2.5-.2 1 .2 1 .7v5.3c0 .3-.2.6-.4.7-2.4 1.1-4.7-.9-7.1.2z"/>
+            <path class="flag-pole" d="M3.6 1.1v13.8"/>
+          </svg>מסומנות בדגל
+        </button>
       </div>
       <input class="search" id="search" type="search" placeholder="חיפוש בשאלות…" aria-label="חיפוש בשאלות">
       <span class="group" style="margin-inline-start:auto">
@@ -483,15 +515,33 @@ const EXAMS = __EXAMS__;
 const Q = __Q__;
 
 const KEY = 'ds044252.solved.v2';
+const FLAG_KEY = 'ds044252.flagged.v1';
 let solved = new Set();
-try { solved = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) {}
+/* דגל = "לחזור לזה", מימד נפרד לגמרי מ'נפתר'. שאלה יכולה להיות פתורה
+   ומסומנת בדגל בו־זמנית — בדיוק המקרה של שאלה שפתרת בקושי. */
+let flagged = new Set();
+/* כתיבה מוגנת: בגלישה פרטית או כשהאחסון חסום setItem זורק,
+   ובלי העטיפה הזאת סימון בודד היה מפיל את שאר הפעולה. */
+function store(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+function loadRaw(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function load(key) {
+  try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { return []; }
+}
+solved = new Set(load(KEY));
+flagged = new Set(load(FLAG_KEY));
+const saveSolved = () => store(KEY, JSON.stringify([...solved]));
+const saveFlags  = () => store(FLAG_KEY, JSON.stringify([...flagged]));
 try {
-  const old = JSON.parse(localStorage.getItem('ds044252.solved.v1') || '[]');
-  if (old.length && !solved.size) { old.forEach(k => solved.add(k)); localStorage.setItem(KEY, JSON.stringify([...solved])); }
+  const old = load('ds044252.solved.v1');
+  if (old.length && !solved.size) { old.forEach(k => solved.add(k)); saveSolved(); }
 } catch (e) {}
 
 const qid = q => q.exam + '-' + q.n;
-const filters = { band:'all', kind:'all', status:'all', text:'' };
+const filters = { band:'all', kind:'all', status:'all', text:'', flagOnly:false };
 /* מקור אמת יחיד לאילו מועדים מוצגים. צ'יפ שנה הוא קיצור דרך שמסמן את כל מועדי אותה שנה. */
 const selExams = new Set(EXAMS.map(x => x.id));
 const el = s => document.querySelector(s);
@@ -517,6 +567,7 @@ function matches(q) {
   const done = solved.has(qid(q));
   if (filters.status === 'done' && !done) return false;
   if (filters.status === 'todo' && done) return false;
+  if (filters.flagOnly && !flagged.has(qid(q))) return false;
   if (filters.text) {
     const hay = (q.desc + ' ' + topicName(q.topic) + ' ' + (q.also || []).map(topicName).join(' ')).toLowerCase();
     if (!hay.includes(filters.text)) return false;
@@ -555,7 +606,22 @@ function cardHTML(q, withExam) {
         '<span class="q-page" title="עמוד ' + q.page + ' בקובץ המאגד את כל המבחנים (All Past Exams 2018–2026.pdf)">עמ׳ ' + q.page + '</span>' +
         (also ? '<span class="q-also">גם: ' + also + '</span>' : '') +
       '</span>' +
-    '</span></label>';
+    '</span>' +
+    flagBtn(id) +
+    '</label>';
+}
+
+/* כפתור בתוך label אינו מפעיל את התיבה — button הוא interactive content,
+   ולכן הלחיצה לא נספרת כלחיצה על ה-label. */
+function flagBtn(id) {
+  const on = flagged.has(id);
+  return '<button type="button" class="flag" data-flag="' + id + '" aria-pressed="' + on + '" ' +
+    'title="' + (on ? 'להסיר את הדגל' : 'לסמן בדגל — לחזור לשאלה הזאת') + '" ' +
+    'aria-label="' + (on ? 'מסומנת בדגל' : 'סמנו בדגל') + '">' +
+    '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+      '<path class="flag-cloth" d="M3.6 1.7c2.4-1.1 4.7.9 7.1-.2.5-.2 1 .2 1 .7v5.3c0 .3-.2.6-.4.7-2.4 1.1-4.7-.9-7.1.2z"/>' +
+      '<path class="flag-pole" d="M3.6 1.1v13.8"/>' +
+    '</svg></button>';
 }
 
 function buildBody() {
@@ -679,6 +745,7 @@ function refresh() {
   el('#mcTally').textContent = mc.filter(q => solved.has(qid(q))).length + '/' + mc.length;
   el('#openTally').textContent = op.filter(q => solved.has(qid(q))).length + '/' + op.length;
   el('#visTally').textContent = visible;
+  el('#flagTally').textContent = pool.filter(q => flagged.has(qid(q))).length;
   /* המילוי מתחיל מימין, כמו כיוון הקריאה. חלון החיתוך נצמד לקצה הימני
      ומתרחב שמאלה, ולכן x זז ולא רק width. */
   const fillW = pool.length ? done / pool.length * 1240 : 0;
@@ -695,7 +762,7 @@ function onToggle(e) {
   if (!box) return;
   const id = box.closest('.card').dataset.q;
   box.checked ? solved.add(id) : solved.delete(id);
-  localStorage.setItem(KEY, JSON.stringify([...solved]));
+  saveSolved();
   document.querySelectorAll('.card').forEach(c => {
     if (c.dataset.q === id) c.querySelector('input').checked = box.checked;
   });
@@ -703,6 +770,32 @@ function onToggle(e) {
 }
 el('#body').addEventListener('change', onToggle);
 el('#listView').addEventListener('change', onToggle);
+
+/* הדגל — לחיצה אחת מדליקה/מכבה, ושני המופעים של השאלה מתעדכנים */
+function onFlag(e) {
+  const btn = e.target.closest('.flag');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const id = btn.dataset.flag;
+  const on = !flagged.has(id);
+  on ? flagged.add(id) : flagged.delete(id);
+  saveFlags();
+  document.querySelectorAll('.flag[data-flag="' + id + '"]').forEach(b => {
+    b.setAttribute('aria-pressed', String(on));
+    b.title = on ? 'להסיר את הדגל' : 'לסמן בדגל — לחזור לשאלה הזאת';
+    b.setAttribute('aria-label', on ? 'מסומנת בדגל' : 'סמנו בדגל');
+  });
+  refresh();
+}
+el('#body').addEventListener('click', onFlag);
+el('#listView').addEventListener('click', onFlag);
+
+el('#flagFilter').addEventListener('click', () => {
+  filters.flagOnly = !filters.flagOnly;
+  el('#flagFilter').setAttribute('aria-pressed', String(filters.flagOnly));
+  refresh();
+});
 
 document.querySelectorAll('.chip[data-band], .chip[data-kind], .chip[data-status]').forEach(chip => {
   chip.addEventListener('click', () => {
@@ -774,9 +867,9 @@ el('#examNone').addEventListener('click', () => setExams([]));
 el('#search').addEventListener('input', e => { filters.text = e.target.value.trim().toLowerCase(); refresh(); });
 
 el('#resetBtn').addEventListener('click', () => {
-  if (!solved.size || confirm('לאפס את כל הסימונים?')) {
+  if (!solved.size || confirm('לאפס את כל סימוני "נפתר"?\n\nהדגלים יישמרו.')) {
     solved.clear();
-    localStorage.setItem(KEY, '[]');
+    store(KEY, '[]');
     document.querySelectorAll('.card input').forEach(b => b.checked = false);
     refresh();
   }
@@ -796,22 +889,22 @@ function applyView(v) {
   page.classList.toggle('view-table', v === 'table');
   el('#viewBtn').textContent = v === 'table' ? 'תצוגת רשימה' : 'תצוגת טבלה';
 }
-applyView(localStorage.getItem(VIEW_KEY) || 'table');
+applyView(loadRaw(VIEW_KEY) || 'table');
 el('#viewBtn').addEventListener('click', () => {
   const next = page.classList.contains('view-table') ? 'list' : 'table';
-  localStorage.setItem(VIEW_KEY, next);
+  store(VIEW_KEY, next);
   applyView(next);
 });
 
 /* ---------- מצב תצוגה: בהיר כברירת מחדל, הבחירה נשמרת ---------- */
 const THEME_KEY = 'ds044252.theme';
-const savedTheme = localStorage.getItem(THEME_KEY);
+const savedTheme = loadRaw(THEME_KEY);
 if (savedTheme === 'dark' || savedTheme === 'light') document.documentElement.dataset.theme = savedTheme;
 
 el('#themeBtn').addEventListener('click', () => {
   const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
-  localStorage.setItem(THEME_KEY, next);
+  store(THEME_KEY, next);
 });
 
 /* ---------- ייצוא וייבוא של ההתקדמות ---------- */
@@ -824,9 +917,10 @@ function stamp() {
 el('#exportBtn').addEventListener('click', () => {
   const payload = {
     app: 'ds044252',
-    version: 2,
+    version: 3,
     exported: new Date().toISOString(),
     total: Q.length,
+    flagged: [...flagged].sort(),
     solved: [...solved].sort()
   };
   const text = JSON.stringify(payload, null, 1);
@@ -849,32 +943,40 @@ el('#importFile').addEventListener('change', async e => {
   const file = e.target.files && e.target.files[0];
   e.target.value = '';
   if (!file) return;
-  let list;
+  let list, flagList;
   try {
     const data = JSON.parse(await file.text());
     list = Array.isArray(data) ? data : data.solved;
-    if (!Array.isArray(list)) throw new Error('no list');
+    flagList = Array.isArray(data) ? [] : (data.flagged || []);   // קבצים מגרסה 2 לא מכילים דגלים
+    if (!Array.isArray(list) || !Array.isArray(flagList)) throw new Error('no list');
   } catch (err) {
     alert('הקובץ אינו קובץ התקדמות תקין. צריך להיות קובץ JSON שיוצא מהאתר הזה.');
     return;
   }
   const valid = new Set(Q.map(qid));
   const known = list.filter(k => valid.has(k));
-  const skipped = list.length - known.length;
+  const knownFlags = flagList.filter(k => valid.has(k));
+  const skipped = (list.length - known.length) + (flagList.length - knownFlags.length);
   const fresh = known.filter(k => !solved.has(k)).length;
 
-  const merge = solved.size > 0
-    ? confirm(`בקובץ ${known.length} שאלות מסומנות (${fresh} חדשות עבורך).\n\n` +
-              'אישור = מיזוג עם הסימונים הקיימים\nביטול = החלפה מלאה של הסימונים')
+  const merge = (solved.size || flagged.size)
+    ? confirm(`בקובץ ${known.length} שאלות פתורות (${fresh} חדשות עבורך) ו-${knownFlags.length} מסומנות בדגל.\n\n` +
+              'אישור = מיזוג עם מה שקיים\nביטול = החלפה מלאה')
     : true;
 
-  if (!merge) solved.clear();
+  if (!merge) { solved.clear(); flagged.clear(); }
   known.forEach(k => solved.add(k));
-  localStorage.setItem(KEY, JSON.stringify([...solved]));
+  knownFlags.forEach(k => flagged.add(k));
+  saveSolved();
+  saveFlags();
   document.querySelectorAll('.card').forEach(c => {
-    c.querySelector('input').checked = solved.has(c.dataset.q);
+    const id = c.dataset.q;
+    c.querySelector('input').checked = solved.has(id);
+    const b = c.querySelector('.flag');
+    if (b) b.setAttribute('aria-pressed', String(flagged.has(id)));
   });
   refresh();
-  alert(`יובאו ${known.length} סימונים.` + (skipped ? `\n${skipped} רשומות לא זוהו ודולגו.` : ''));
+  alert(`יובאו ${known.length} סימוני "נפתר" ו-${knownFlags.length} דגלים.` +
+        (skipped ? `\n${skipped} רשומות לא זוהו ודולגו.` : ''));
 });
 </script>
